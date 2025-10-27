@@ -16,6 +16,19 @@ const compras = [
 
 const rarezasConDescuento = ["Comun", "Raro"];
 
+// === BIENVENIDA AL JUEGO ===
+// Muestro el título del juego en la consola
+console.log("🏰 Bienvenidos a 'Aventura en el Reino de JS'");
+
+// === CREAR JUGADORES (CON MIS NOMBRES ELEGIDOS) ===
+// Instancio tres jugadores usando el constructor de la clase Jugadores
+const jugador1 = new Jugadores('Paco');    // Primer jugador - será como un guerrero
+const jugador2 = new Jugadores('Juan');    // Segundo jugador - será como un soldado
+const jugador3 = new Jugadores('Gustavo'); // Tercer jugador - será como un cazador
+
+// Concateno los nombres para mostrarlos en una sola línea
+console.log("👤 Jugadores:", jugador1.nombre + ", " + jugador2.nombre + ", " + jugador3.nombre);
+
 console.log('🛒 Mercado Disponible');
 mercado.mostrarProducto().forEach(mer => console.log(mer));
 
@@ -32,19 +45,6 @@ console.log('\n🛒 Compras realizadas:\n');
 compras.forEach(compra => {
     console.log(`-${compra.personaje} ha comprado ${compra.producto}`);
 });
-
-// === BIENVENIDA AL JUEGO ===
-// Muestro el título del juego en la consola
-console.log("🏰 Bienvenidos a 'Aventura en el Reino de JS'");
-
-// === CREAR JUGADORES (CON MIS NOMBRES ELEGIDOS) ===
-// Instancio tres jugadores usando el constructor de la clase Jugadores
-const jugador1 = new Jugadores('Paco');    // Primer jugador - será como un guerrero
-const jugador2 = new Jugadores('Juan');    // Segundo jugador - será como un soldado
-const jugador3 = new Jugadores('Gustavo'); // Tercer jugador - será como un cazador
-
-// Concateno los nombres para mostrarlos en una sola línea
-console.log("👤 Jugadores:", jugador1.nombre + ", " + jugador2.nombre + ", " + jugador3.nombre);
 
 // === CREAR MIS ENEMIGOS ORIGINALES ===
 // Creo tres enemigos con diferentes niveles de dificultad

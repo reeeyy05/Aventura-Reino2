@@ -10,46 +10,78 @@
 </head>
 
 <body>
+
+    <header>
+        <h2>🏰 Bienvenidos a Aventura en el Reino de JS</h2>
+    </header>
+
     <!-- Escena 1: Estado jugador -->
-    <div id="inicio" class="">
-        <h2>🏰 Bienvenidos a 'Aventura en el Reino de JS</h2>
-        <p><strong>Jugador: </strong></p>
-        <p><strong>Vida: </strong></p>
-        <p><strong>Puntos: </strong></p>
-        <p><strong>Ataque: </strong></p>
-        <p><strong>Defensa: </strong></p>
+    <div id="inicio" class="scene">
+        <h2>👤 Estado inicial del Jugador</h2>
+        <p><strong>Jugador: </strong> <span id="nombre">Alejandro</span></p>
+        <p><strong>Vida: </strong><span id="vida">100</span></p>
+        <p><strong>Puntos: </strong> <span id="puntos">0</span></p>
+        <p><strong>Ataque: </strong> <span id="ataque">0</span></p>
+        <p><strong>Defensa: </strong> <span id="defensa">0</span></p>
+
         <button onclick="">➡️ Ir al Mercado</button>
     </div>
 
     <!-- Escena 2: Mercado -->
-    <div id="mercado">
+    <div id="mercado" class="scene">
         <h2>🛒 Mercado del Reino</h2>
-        <button onclick=""></button>
+        <p id="descuento"></p>
+        <div id="productos"></div>
+
+        <button onclick="showScene('mercado')">✅ Confirmar compra</button>
     </div>
 
     <!-- Escena 3: Equipar jugador -->
-    <div id="jugador">
+    <div id="jugador" class="scene">
         <h2>🎒 Estado del jugador tras las compras</h2>
-        <button onclick=""></button>
+        <button onclick="">➡️ Ver enemigos</button>
     </div>
 
     <!-- Escena 4: Enemigos -->
-    <div id="enemigos">
+    <div id="enemigos" class="scene">
         <h2>👹 Enemigos del Reino</h2>
-        <button onclick=""></button>
+        <button onclick="">➡️ Batallas</button>
     </div>
 
     <!-- Escena 5: Batallas -->
-    <div id="batallas">
+    <div id="batallas" class="scene">
         <h2>⚔️ Batallas</h2>
-        <button onclick=""></button>
+        <button onclick="">➡️ Ranking Final</button>
     </div>
 
     <!-- Escena 6: Ranking -->
-    <div id="resultado">
+    <div id="resultado" class="scene">
         <h2>🏆 Resultado Final:</h2>
         <button onclick=""></button>
     </div>
+
+    <footer>
+        <div id="inventory-container">
+            <div class="item">
+                <img src="" alt="">
+            </div>
+            <div class="item">
+                <img src="" alt="">
+            </div>
+            <div class="item">
+                <img src="" alt="">
+            </div>
+            <div class="item">
+                <img src="" alt="">
+            </div>
+            <div class="item">
+                <img src="" alt="">
+            </div>
+            <div class="item">
+                <img src="" alt="">
+            </div>
+        </div>
+    </footer>
 </body>
 
 </html>

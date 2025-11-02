@@ -16,13 +16,13 @@
     </header>
 
     <!-- Escena 1: Estado jugador -->
-    <div id="inicio" class="scene">
+    <div id="inicio" class="scene active">
         <h2>👤 Estado inicial del Jugador</h2>
-        <p><strong>Jugador: </strong> <span id="nombre">Alejandro</span></p>
-        <p><strong>Vida: </strong><span id="vida">100</span></p>
-        <p><strong>Puntos: </strong> <span id="puntos">0</span></p>
-        <p><strong>Ataque: </strong> <span id="ataque">0</span></p>
-        <p><strong>Defensa: </strong> <span id="defensa">0</span></p>
+        <p><strong>Jugador: </strong> <span id="nombre-jugador">Alejandro</span></p>
+        <p><strong>Vida: </strong><span id="vida-jugador">100</span></p>
+        <p><strong>Puntos: </strong> <span id="puntos-jugador">0</span></p>
+        <p><strong>Ataque: </strong> <span id="ataque-jugador">0</span></p>
+        <p><strong>Defensa: </strong> <span id="defensa-jugador">0</span></p>
 
         <button onclick="">➡️ Ir al Mercado</button>
     </div>
@@ -30,34 +30,49 @@
     <!-- Escena 2: Mercado -->
     <div id="mercado" class="scene">
         <h2>🛒 Mercado del Reino</h2>
-        <p id="descuento"></p>
-        <div id="productos"></div>
-
+        <p id="mensaje-descuento"></p>
+        <div id="contenedor-productos"></div>
+        <div class="seleccion">
+            <h3>🛒 Productos seleccionados</h3>
+            <ul id="lista-carrito"></ul>
+        </div>
         <button onclick="showScene('mercado')">✅ Confirmar compra</button>
     </div>
 
     <!-- Escena 3: Equipar jugador -->
     <div id="jugador" class="scene">
         <h2>🎒 Estado del jugador tras las compras</h2>
-        <button onclick="">➡️ Ver enemigos</button>
+        <p><strong>Jugador: </strong> <span id="nombre-actualizado">Alejandro</span></p>
+        <p><strong>Vida: </strong><span id="vida-actualizada">100</span></p>
+        <p><strong>Puntos: </strong> <span id="puntos-actualizado">0</span></p>
+        <p><strong>Ataque: </strong> <span id="ataque-actualizado">0</span></p>
+        <p><strong>Defensa: </strong> <span id="defensa-actualizada">0</span></p>
+
+        <button onclick="showScene('enemigos')">⚔️ Batallas</button>
     </div>
 
     <!-- Escena 4: Enemigos -->
     <div id="enemigos" class="scene">
         <h2>👹 Enemigos del Reino</h2>
-        <button onclick="">➡️ Batallas</button>
+        <div id="contenedor-enemigos"></div>
+        <button onclick="iniciarBatallas()">🔥Comenzar batallas</button>
     </div>
 
     <!-- Escena 5: Batallas -->
     <div id="batallas" class="scene">
         <h2>⚔️ Batallas</h2>
-        <button onclick="">➡️ Ranking Final</button>
+        <div id="registro-batallas"></div>
+        <button id="siguiente-batalla" onclick="siguienteBatalla()">➡️ Siguiente Batalla</button>
+        <button id="siguiente-batalla" onclick="siguienteBatalla()">🏆 Terminar Batallas</button>
     </div>
 
     <!-- Escena 6: Ranking -->
     <div id="resultado" class="scene">
-        <h2>🏆 Resultado Final:</h2>
-        <button onclick=""></button>
+        <h2>🏆 Resultado Final</h2>
+        <p><strong>Jugador: </strong><span id="nombre-final">Alejandro</span></p>
+        <p><strong>Puntos: </strong><span id="puntos-final">0</span></p>
+        <p><strong>Categoria: </strong><span id="categoria-final">rookie</span></p>
+        <button onclick="reiniciarJuego()">🔁 Jugar de nuevo</button>
     </div>
 
     <footer>

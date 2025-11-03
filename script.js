@@ -1,9 +1,16 @@
+// INICIO
+document.addEventListener('DOMContentLoaded', () => {
+    cargarMercado();
+    cargarEnemigos();
+});
+
 // DATOS DEL JUEGO
 let jugador = {
     nombre: "Alejandro",
     puntos: 0,
     vida: 100,
-    inventario: {}
+    vidaMaxima: 100,
+    inventario: []
 }
 
 let productosSeleccionados = [];
@@ -11,10 +18,10 @@ let listaBatallas = [];
 let indiceBatallaActual = 0;
 
 const listaProductos = [
-    { nombre: "Espada Basica", rareza: "Comun", tipo: "arma", ataque: 5, precio: 500 },
+    { nombre: "Espada Basica", rareza: "Comun", tipo: "arma", ataque: 10, precio: 500 },
     { nombre: "Armadura Ligera", rareza: "Rara", tipo: "armadura", defensa: 10, precio: 750 },
     { nombre: "Pocion de vida", rareza: "Comun", tipo: "consumible", curacion: 10, precio: 200 },
-    { nombre: "Arco largo", rareza: "Epico", tipo: "arma", ataque: 15, precio: 1200 },
+    { nombre: "Arco largo", rareza: "Epico", tipo: "arma", ataque: 25, precio: 1200 },
     { nombre: "Pocion de Mana", rareza: "Comun", tipo: "consumible", curacion: 40, precio: 300 }
 ];
 
@@ -52,7 +59,7 @@ function alternarSeleccion(producto, elemento) {
 
 function cargarMercado() {
     const rarezasDescuento = ["Comun", "Rara"];
-    const rarezaElegida = rarezasDescuento[Math.floor(Math.random * rarezasDescuento.length)];
+    const rarezaElegida = rarezasDescuento[Math.floor(Math.random() * rarezasDescuento.length)];
     const porcentejeDescuento = 20;
 
     document.getElementById('mensaje-descuento').textContent = `🤑 ¡${porcentejeDescuento}% de descuento en items ${rarezaElegida}`;
@@ -148,17 +155,90 @@ function cargarEnemigos() {
 }
 
 function iniciarBatallas() {
+    // Copia del array
+    listaBatallas = [];
+    for (let i = 0; i < listaEnemigos.length; i++) {
+        listaBatallas.push(listaEnemigos[i]);
+    }
 
+    indiceBatallaActual = 0;
+    document.getElementById('registro-batallas').innerHTML = '';
+    document.getElementById('siguiente-batalla').style.display = 'inline-block';
+    document.getElementById('finalizar').style.display = 'none';
+    siguienteBatalla();
+    mostrarEscena('batallas');
 }
 
 function siguienteBatalla() {
+    if (indiceBatallaActual >= listaBatallas.length) {
+        document.getElementById('siguiente-batalla').style.display = 'none';
+        document.getElementById('finalizar').style.display = 'inline-block';
+        return;
+    }
 
+    const enemigo = listaBatallas[indiceBatallaActual];
+
+    let ataqueJugador = 0;
+    let defensaJugador = 0;
+    for (let i = 0; i < jugador.inventario.length; i++) {
+        const item = jugador.inventario[i];
+        if (item.ataque) ataqueJugador += item.ataque;
+        if (item.defensa) defensaJugador += item.defensa;
+    }
+
+    const contenedor = document.createElement('div');
+    contenedor.innerHTML = `
+    <h3>⚔️ Batalla ${indiceBatallaActual + 1}</h3>
+    <p><strong>🧝‍♂️ Jugador: </strong>${jugador.nombre} | Vida: ${jugador.vida}/${jugador.vidaMaxima} | Ataque: ${ataqueJugador} | Defensa: ${defensaJugador}</p>
+    <p><strong>👹 Enemigo: </strong>${enemigo.nombre} | Ataque: ${enemigo.ataque}</p>
+    `;
+    const danoJugador = Math.max(0, ataqueJugador);
+    const danoEnemigo = Math.max(0, enemigo.ataque - defensaJugador);
+
+    let resultado, puntos = 0, color;
+    if (danoJugador > danoEnemigo) {
+        resultado = "¡Has ganado!";
+        puntos = 100;
+        jugador.puntos += puntos;
+        color = "#e8f5e8";
+    } else {
+        resultado = "Has perdido..."
+        color = "#ffebee";
+    }
+
+    const resultadoEl = document.createElement('p');
+    resultadoEl.innerHTML = `<strong>Resultado:</strong> ${resultado} ${puntos ? `(+${puntos} puntos)` : ''}`;
+    resultadoEl.style.padding = "10px";
+    resultadoEl.style.borderRadius = "6px";
+    resultadoEl.style.backgroundColor = color;
+    resultadoEl.style.fontWeight = "bold";
+    resultadoEl.style.marginTop = "8px";
+    contenedor.appendChild(resultadoEl);
+    
+    document.getElementById('registro-batallas').appendChild(contenedor);
+    indiceBatallaActual++;
 }
 
 function finalizarJuego() {
+    document.getElementById('nombre-final').textContent = jugador.nombre;
+    document.getElementById('puntos-final').textContent = jugador.puntos;
+    document.getElementById('categoria-final').textContent = jugador.puntos >= 100 ? "pro" : "rookie";
 
+    mostrarEscena('resultado');
 }
 
 function reiniciarJuego() {
-
+    jugador = {
+        nombre: "Alejandro",
+        puntos: 0,
+        vida: 100,
+        vidaMaxima: 100,
+        inventario: []
+    };
+    productosSeleccionados = [];
+    listaBatallas = [];
+    indiceBatallaActual = 0;
+    cargarMercado();
+    cargarEnemigos();
+    mostrarEscena('inicio');
 }

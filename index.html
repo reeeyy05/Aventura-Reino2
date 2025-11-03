@@ -24,7 +24,7 @@
         <p><strong>Ataque: </strong> <span id="ataque-jugador">0</span></p>
         <p><strong>Defensa: </strong> <span id="defensa-jugador">0</span></p>
 
-        <button onclick="">➡️ Ir al Mercado</button>
+        <button onclick="mostrarEscena('mercado')">➡️ Ir al Mercado</button>
     </div>
 
     <!-- Escena 2: Mercado -->
@@ -36,7 +36,7 @@
             <h3>🛒 Productos seleccionados</h3>
             <ul id="lista-carrito"></ul>
         </div>
-        <button onclick="showScene('mercado')">✅ Confirmar compra</button>
+        <button onclick="confirmarCompra()">✅ Confirmar compra</button>
     </div>
 
     <!-- Escena 3: Equipar jugador -->
@@ -48,7 +48,7 @@
         <p><strong>Ataque: </strong> <span id="ataque-actualizado">0</span></p>
         <p><strong>Defensa: </strong> <span id="defensa-actualizada">0</span></p>
 
-        <button onclick="showScene('enemigos')">⚔️ Batallas</button>
+        <button onclick="mostrarEscena('enemigos')">⚔️ Batallas</button>
     </div>
 
     <!-- Escena 4: Enemigos -->
@@ -63,7 +63,7 @@
         <h2>⚔️ Batallas</h2>
         <div id="registro-batallas"></div>
         <button id="siguiente-batalla" onclick="siguienteBatalla()">➡️ Siguiente Batalla</button>
-        <button id="siguiente-batalla" onclick="siguienteBatalla()">🏆 Terminar Batallas</button>
+        <button id="finalizar" onclick="finalizarJuego()">🏆 Terminar Batallas</button>
     </div>
 
     <!-- Escena 6: Ranking -->
@@ -74,29 +74,6 @@
         <p><strong>Categoria: </strong><span id="categoria-final">rookie</span></p>
         <button onclick="reiniciarJuego()">🔁 Jugar de nuevo</button>
     </div>
-
-    <footer>
-        <div id="inventory-container">
-            <div class="item">
-                <img src="" alt="">
-            </div>
-            <div class="item">
-                <img src="" alt="">
-            </div>
-            <div class="item">
-                <img src="" alt="">
-            </div>
-            <div class="item">
-                <img src="" alt="">
-            </div>
-            <div class="item">
-                <img src="" alt="">
-            </div>
-            <div class="item">
-                <img src="" alt="">
-            </div>
-        </div>
-    </footer>
 </body>
 
 </html>

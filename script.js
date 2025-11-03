@@ -226,19 +226,3 @@ function finalizarJuego() {
 
     mostrarEscena('resultado');
 }
-
-function reiniciarJuego() {
-    jugador = {
-        nombre: "Alejandro",
-        puntos: 0,
-        vida: 100,
-        vidaMaxima: 100,
-        inventario: []
-    };
-    productosSeleccionados = [];
-    listaBatallas = [];
-    indiceBatallaActual = 0;
-    cargarMercado();
-    cargarEnemigos();
-    mostrarEscena('inicio');
-}

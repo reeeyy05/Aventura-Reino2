@@ -1,4 +1,3 @@
-/* ===== VARIABLES BÁSICAS ===== */
 :root {
   --color-fondo-pagina: #f0e4d7;
   --color-panel: #ffffff;
@@ -7,14 +6,12 @@
   --color-tarjeta-enemigo: #ffb4b4;
 }
 
-/* ===== RESETEO ===== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* ===== GENERAL ===== */
 body {
   font-family: Arial, Helvetica, sans-serif;
   background-color: var(--color-fondo-pagina);
@@ -37,13 +34,11 @@ h2 {
   display: block;
 }
 
-/* ===== IMÁGENES ===== */
 img {
   max-width: 100%;
   display: block;
 }
 
-/* Inicio: imagen jugador + datos */
 .inicio-contenedor {
   display: flex;
   align-items: center;
@@ -53,9 +48,8 @@ img {
 }
 
 .inicio-imagen img {
-  width: 110px;
-  height: 110px;
-  object-fit: contain;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
   border: 2px solid #555;
   background-color: #fafafa;
@@ -65,28 +59,24 @@ img {
   text-align: left;
 }
 
-/* Enemigos: imagen en tarjeta */
 .enemigo-imagen {
-  width: 70px;
-  height: 70px;
+  width: 120px;
+  height: 120px;
   margin: 0 auto 6px auto;
-  border-radius: 50%;
-  background: #fce4e4;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .enemigo-imagen img {
-  width: 60px;
-  height: 60px;
+  width: 110px;
+  height: 110px;
   object-fit: contain;
 }
 
-/* Combate: imágenes jugador y enemigo */
 .imagen-combate {
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: 120px;
   margin: 0 auto;
   border-radius: 8px;
   border: 2px solid #555;
@@ -98,12 +88,11 @@ img {
 }
 
 .imagen-combate img {
-  width: 90px;
-  height: 90px;
+  width: 110px;
+  height: 110px;
   object-fit: contain;
 }
 
-/* ===== BOTONES ===== */
 button {
   padding: 9px 22px;
   margin: 8px;
@@ -121,7 +110,6 @@ button:hover {
   transform: translateY(-1px);
 }
 
-/* ===== MERCADO (GRID) ===== */
 #contenedor-productos {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -137,17 +125,25 @@ button:hover {
   text-align: center;
   cursor: pointer;
   background-color: var(--color-tarjeta-producto);
-  transition: background-color 0.15s ease, transform 0.1s ease;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+  transition:
+    background-color 0.15s ease,
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    border-color 0.15s ease;
 }
 
 .tarjeta-producto:hover {
   background-color: var(--color-tarjeta-producto-hover);
-  transform: translateY(-2px);
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.2);
 }
 
 .tarjeta-producto.seleccionado {
   background-color: var(--color-tarjeta-producto-hover);
-  outline: 2px solid #2e7d32;
+  border: 2px solid #1b5e20;
+  box-shadow: 0 0 0 3px rgba(27, 94, 32, 0.35);
+  transform: translateY(-2px) scale(1.04);
 }
 
 .rareza,
@@ -156,7 +152,6 @@ button:hover {
   margin: 3px 0;
 }
 
-/* ===== ENEMIGOS (GRID) ===== */
 #contenedor-enemigos {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -176,7 +171,6 @@ button:hover {
   text-align: center;
 }
 
-/* ===== ZONA DE COMBATE ===== */
 #zona-combate {
   margin: 20px auto 0 auto;
   padding: 0;
@@ -206,7 +200,6 @@ button:hover {
   font-size: 13px;
 }
 
-/* Log de resultados */
 #registro-batallas {
   margin: 10px auto 0 auto;
   padding: 10px 12px;
@@ -217,15 +210,14 @@ button:hover {
   font-size: 14px;
 }
 
-/* ===== ANIMACIONES SIMPLES PARA COMBATE ===== */
 @keyframes entrar-desde-izquierda {
-  0%   { transform: translateX(-150px); opacity: 0; }
-  100% { transform: translateX(0);     opacity: 1; }
+  0% { transform: translateX(-150px); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
 }
 
 @keyframes entrar-desde-derecha {
-  0%   { transform: translateX(150px); opacity: 0; }
-  100% { transform: translateX(0);     opacity: 1; }
+  0% { transform: translateX(150px); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
 }
 
 .jugador-anim.anim-start {

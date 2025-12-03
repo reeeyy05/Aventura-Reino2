@@ -1,10 +1,15 @@
-// INICIO
+/**
+ * INICIO DEL JUEGO DE AVENTURAS CON MERCADO Y BATALLAS
+ * @author Alejandro Rey Tostado
+ */
 document.addEventListener('DOMContentLoaded', () => {
   cargarMercado();
   cargarEnemigos();
 });
 
-// DATOS DEL JUEGO
+/**
+ * ESTADO INICIAL DEL JUGADOR
+ */
 let jugador = {
   nombre: "Alejandro",
   puntos: 0,
@@ -18,19 +23,23 @@ let productosSeleccionados = [];
 let listaBatallas = [];
 let indiceBatallaActual = 0;
 
-// PRODUCTOS (5 originales + 3 nuevos)
+/**
+ * ESTADO DE LOS PRODUCTOS
+ */
 const listaProductos = [
-  { nombre: "Espada Basica", rareza: "Comun", tipo: "arma", ataque: 10, precio: 500, imagen: "axe.png" },
-  { nombre: "Armadura Ligera", rareza: "Rara", tipo: "armadura", defensa: 10, precio: 750, imagen: "armor.png" },
-  { nombre: "Pocion de vida", rareza: "Comun", tipo: "consumible", curacion: 10, precio: 200, imagen: "hp.png" },
-  { nombre: "Arco largo", rareza: "Epico", tipo: "arma", ataque: 25, precio: 1200, imagen: "bow.png" },
-  { nombre: "Pocion de Mana", rareza: "Comun", tipo: "consumible", curacion: 40, precio: 300, imagen: "hp.png" },
-  { nombre: "Martillo de Guerra", rareza: "Rara", tipo: "arma", ataque: 18, precio: 1300 },
-  { nombre: "Cota de Malla", rareza: "Epico", tipo: "armadura", defensa: 25, precio: 1400, imagen: "armor.png" },
-  { nombre: "Elixir Supremo", rareza: "Legendario", tipo: "consumible", curacion: 80, precio: 1800, imagen: "hp.png" }
+  { nombre: "Hacha Basica", rareza: "Comun", tipo: "arma", ataque: 10, precio: 500, imagen: "img/axe.png" },
+  { nombre: "Armadura Ligera", rareza: "Rara", tipo: "armadura", defensa: 10, precio: 750, imagen: "img/armor.png" },
+  { nombre: "Pocion de vida", rareza: "Comun", tipo: "consumible", curacion: 10, precio: 200, imagen: "img/hp.png" },
+  { nombre: "Arco largo", rareza: "Epico", tipo: "arma", ataque: 25, precio: 1200, imagen: "img/bow.png" },
+  { nombre: "Pocion de Mana", rareza: "Comun", tipo: "consumible", curacion: 40, precio: 300, imagen: "img/hp.png" },
+  { nombre: "Martillo de Guerra", rareza: "Rara", tipo: "arma", ataque: 18, precio: 1300, imagen: "img/hammer.png" },
+  { nombre: "Cota de Malla", rareza: "Epico", tipo: "armadura", defensa: 25, precio: 1400, imagen: "img/armor.png" },
+  { nombre: "Elixir Supremo", rareza: "Legendario", tipo: "consumible", curacion: 80, precio: 1800, imagen: "img/hp.png" }
 ];
 
-// ENEMIGOS (con imagen para UI)
+/**
+ * ESTADO DE LOS ENEMIGOS
+ */
 const listaEnemigos = [
   { nombre: "Goblin", ataque: 15, vida: 60, tipo: "normal", imagen: "img/enemigo.png" },
   { nombre: "Orco", ataque: 25, vida: 90, tipo: "normal", imagen: "img/enemigo.png" },
@@ -40,19 +49,30 @@ const listaEnemigos = [
   { nombre: "Señor de la Sombra", ataque: 45, vida: 150, tipo: "jefe", imagen: "img/sombra.png" }
 ];
 
-// ===== ESCENAS =====
+/**
+ * Funcion para mostrar una escena y ocultar las demas
+ * @param idEscena ID de la escena a mostrar
+ */
 function mostrarEscena(idEscena) {
   document.querySelectorAll('.scene').forEach(elemento => elemento.classList.remove('active'));
   document.getElementById(idEscena).classList.add('active');
 }
 
-// ===== MONEDA =====
+/**
+ * Funcion para formatear una cantidad en centimos a moneda EUR
+ * @param cantidadCentimos Cantidad en centimos
+ * @returns Cadena formateada en EUR
+ */
 function formatearMoneda(cantidadCentimos) {
   return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' })
     .format(cantidadCentimos / 100);
 }
 
-// ===== MERCADO =====
+/**
+ * Funcion para alternar la seleccion de un producto en el carrito
+ * @param producto Producto a seleccionar/deseleccionar
+ * @param elemento Elemento HTML del producto
+ */
 function alternarSeleccion(producto, elemento) {
   const yaSeleccionado = productosSeleccionados.some(p => p.nombre === producto.nombre);
 
@@ -67,6 +87,9 @@ function alternarSeleccion(producto, elemento) {
   actualizarCarrito();
 }
 
+/**
+ * Funcion para cargar el mercado con productos y aplicar descuentos aleatorios
+ */
 function cargarMercado() {
   const rarezasDescuento = ["Comun", "Rara", "Epico", "Legendario"];
   const rarezaElegida = rarezasDescuento[Math.floor(Math.random() * rarezasDescuento.length)];
@@ -109,6 +132,9 @@ function cargarMercado() {
   productosSeleccionados = [];
 }
 
+/**
+ * Funcion para actualizar la lista del carrito
+ */
 function actualizarCarrito() {
   const lista = document.getElementById('lista-carrito');
   if (!lista) return;
@@ -120,6 +146,9 @@ function actualizarCarrito() {
   });
 }
 
+/**
+ * Funcion para confirmar la compra y actualizar el inventario del jugador
+ */
 function confirmarCompra() {
   jugador.inventario = productosSeleccionados.map(p => ({
     nombre: p.nombre,
@@ -133,7 +162,9 @@ function confirmarCompra() {
   mostrarEscena('jugador');
 }
 
-// ===== ESTADO JUGADOR =====
+/**
+ * Funcion para actualizar la informacion del jugador
+ */
 function actualizarJugador() {
   let ataqueTotal = 0;
   let defensaTotal = 0;
@@ -150,7 +181,9 @@ function actualizarJugador() {
   document.getElementById('defensa-actualizada').textContent = defensaTotal;
 }
 
-// ===== ENEMIGOS (escena 4) =====
+/**
+ * Funcion para cargar los enemigos
+ */
 function cargarEnemigos() {
   const contenedorEnemigo = document.getElementById('contenedor-enemigos');
   contenedorEnemigo.innerHTML = '';
@@ -175,19 +208,21 @@ function cargarEnemigos() {
   });
 }
 
-// ===== BATALLAS: 3 aleatorias, una por pantalla =====
-function mezclar(arr) {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
-
+/**
+ * Funcion para iniciar las batallas
+ */
 function iniciarBatallas() {
-  listaBatallas = mezclar(listaEnemigos).slice(0, 3);
+  listaBatallas = [];
   indiceBatallaActual = 0;
+
+  while (listaBatallas.length < 3) {
+    const indice = Math.floor(Math.random() * listaEnemigos.length);
+    const enemigo = listaEnemigos[indice];
+
+    if (!listaBatallas.includes(enemigo)) {
+      listaBatallas.push(enemigo);
+    }
+  }
 
   document.getElementById('registro-batallas').innerHTML = '';
   document.getElementById('siguiente-batalla').style.display = 'inline-block';
@@ -197,7 +232,10 @@ function iniciarBatallas() {
   mostrarBatallaActual();
 }
 
-// calcula stats del jugador
+/**
+ * Funcion para calcular los stats de ataque y defensa del jugador
+ * @returns Objeto con stats de ataque y defensa del jugador
+ */
 function statsJugador() {
   let ataque = 0;
   let defensa = 0;
@@ -208,7 +246,9 @@ function statsJugador() {
   return { ataque, defensa };
 }
 
-// muestra SOLO la batalla actual
+/**
+ * Funcion para mostrar la batalla actual
+ */
 function mostrarBatallaActual() {
   const enemigo = listaBatallas[indiceBatallaActual];
   const { ataque, defensa } = statsJugador();
@@ -267,6 +307,9 @@ function mostrarBatallaActual() {
   registro.appendChild(contenedor);
 }
 
+/**
+ * Funcion para avanzar a la siguiente batalla
+ */
 function siguienteBatalla() {
   indiceBatallaActual++;
 
@@ -279,12 +322,14 @@ function siguienteBatalla() {
   mostrarBatallaActual();
 }
 
-// ===== RESULTADO FINAL =====
+/**
+ * Funcion para finalizar el juego y mostrar resultados
+ */
 function finalizarJuego() {
   document.getElementById('nombre-final').textContent = jugador.nombre;
   document.getElementById('puntos-final').textContent = jugador.puntos;
-  document.getElementById('categoria-final').textContent =
-    jugador.puntos >= 100 ? "pro" : "rookie";
+  document.getElementById('categoria-final').textContent = jugador.puntos >= 100 ? "pro" : "rookie";
 
+  lanzarConfeti();
   mostrarEscena('resultado');
 }

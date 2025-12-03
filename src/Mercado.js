@@ -13,7 +13,10 @@ export class Mercado {
         new Producto("Escudo Antiguo", 900, "Epico", "armadura", { defensa: 20 }),
         new Producto("Pocion de Mana", 300, "Comun", "consumible", { curacion: 40 }),
         new Producto("Daga Envenenada", 1100, "Legendario", "arma", { ataque: 25 }),
-        new Producto("Armadura de Dragón", 2000, "Legendario", "armadura", { defensa: 35 })
+        new Producto("Armadura de Dragón", 2000, "Legendario", "armadura", { defensa: 35 }),
+        new Producto("Martillo de Guerra", 1300, "Rara", "arma", { ataque: 18 }),
+        new Producto("Cota de Malla", 1400, "Epico", "armadura", { defensa: 25 }),
+        new Producto("Elixir Supremo", 1800, "Legendario", "consumible", { curacion: 80 })
     ];
 
     /**

@@ -329,7 +329,10 @@ function finalizarJuego() {
   document.getElementById('nombre-final').textContent = jugador.nombre;
   document.getElementById('puntos-final').textContent = jugador.puntos;
   document.getElementById('categoria-final').textContent = jugador.puntos >= 100 ? "pro" : "rookie";
-
-  lanzarConfeti();
+  confetti({
+    particleCount: 100,
+    spread: 70,
+    origin: { y: 0.6 }
+  });
   mostrarEscena('resultado');
 }

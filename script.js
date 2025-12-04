@@ -16,6 +16,7 @@ let jugador = {
   vida: 100,
   vidaMaxima: 100,
   inventario: [],
+  dinero: 500,
   imagen: "img/Jugador.svg"
 };
 
@@ -27,14 +28,14 @@ let indiceBatallaActual = 0;
  * ESTADO DE LOS PRODUCTOS
  */
 const listaProductos = [
-  { nombre: "Hacha Basica", rareza: "Comun", tipo: "arma", ataque: 10, precio: 500, imagen: "img/axe.png" },
-  { nombre: "Armadura Ligera", rareza: "Rara", tipo: "armadura", defensa: 10, precio: 750, imagen: "img/armor.png" },
+  { nombre: "Hacha Basica", rareza: "Comun", tipo: "arma", ataque: 10, precio: 400, imagen: "img/axe.png" },
+  { nombre: "Armadura Ligera", rareza: "Rara", tipo: "armadura", defensa: 10, precio: 250, imagen: "img/armor.png" },
   { nombre: "Pocion de vida", rareza: "Comun", tipo: "consumible", curacion: 10, precio: 200, imagen: "img/hp.png" },
-  { nombre: "Arco largo", rareza: "Epico", tipo: "arma", ataque: 25, precio: 1200, imagen: "img/bow.png" },
+  { nombre: "Arco largo", rareza: "Epico", tipo: "arma", ataque: 25, precio: 120, imagen: "img/bow.png" },
   { nombre: "Pocion de Mana", rareza: "Comun", tipo: "consumible", curacion: 40, precio: 300, imagen: "img/hp.png" },
-  { nombre: "Martillo de Guerra", rareza: "Rara", tipo: "arma", ataque: 18, precio: 1300, imagen: "img/hammer.png" },
-  { nombre: "Cota de Malla", rareza: "Epico", tipo: "armadura", defensa: 25, precio: 1400, imagen: "img/armor.png" },
-  { nombre: "Elixir Supremo", rareza: "Legendario", tipo: "consumible", curacion: 80, precio: 1800, imagen: "img/hp.png" }
+  { nombre: "Martillo de Guerra", rareza: "Rara", tipo: "arma", ataque: 18, precio: 300, imagen: "img/hammer.png" },
+  { nombre: "Cota de Malla", rareza: "Epico", tipo: "armadura", defensa: 25, precio: 400, imagen: "img/armor.png" },
+  { nombre: "Elixir Supremo", rareza: "Legendario", tipo: "consumible", curacion: 80, precio: 350, imagen: "img/hp.png" }
 ];
 
 /**
@@ -59,16 +60,6 @@ function mostrarEscena(idEscena) {
 }
 
 /**
- * Funcion para formatear una cantidad en centimos a moneda EUR
- * @param cantidadCentimos Cantidad en centimos
- * @returns Cadena formateada en EUR
- */
-function formatearMoneda(cantidadCentimos) {
-  return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' })
-    .format(cantidadCentimos / 100);
-}
-
-/**
  * Funcion para alternar la seleccion de un producto en el carrito
  * @param producto Producto a seleccionar/deseleccionar
  * @param elemento Elemento HTML del producto
@@ -83,8 +74,6 @@ function alternarSeleccion(producto, elemento) {
     productosSeleccionados.push(producto);
     elemento.classList.add('seleccionado');
   }
-
-  actualizarCarrito();
 }
 
 /**
@@ -95,6 +84,7 @@ function cargarMercado() {
   const rarezaElegida = rarezasDescuento[Math.floor(Math.random() * rarezasDescuento.length)];
   const porcentajeDescuento = Math.floor(Math.random() * 31) + 10; // 10–40%
 
+  document.getElementById('dinero').textContent = `Tienes ${jugador.dinero} monedas para gastar`;
   document.getElementById('mensaje-descuento').textContent = `🤑 ¡${porcentajeDescuento}% de descuento en items ${rarezaElegida}`;
 
   const contenedor = document.getElementById('contenedor-productos');
@@ -121,7 +111,7 @@ function cargarMercado() {
       <strong>${producto.nombre}</strong>
       <div class="rareza">${producto.rareza}</div>
       <div class="textoBonus">${textoBonus}</div>
-      <div>Precio: ${formatearMoneda(precioFinal)}</div>`;
+      <div>Precio: ${precioFinal}</div>`;
 
 
     tarjeta.onclick = () => alternarSeleccion(producto, tarjeta);
@@ -167,6 +157,7 @@ function confirmarCompra() {
 function actualizarJugador() {
   let ataqueTotal = 0;
   let defensaTotal = 0;
+  let dineroTotal = jugador.dinero;
 
   for (const item of jugador.inventario) {
     if (item.ataque) ataqueTotal += item.ataque;
@@ -178,6 +169,7 @@ function actualizarJugador() {
   document.getElementById('puntos-actualizado').textContent = jugador.puntos;
   document.getElementById('ataque-actualizado').textContent = ataqueTotal;
   document.getElementById('defensa-actualizada').textContent = defensaTotal;
+  document.getElementById('dinero-actualizado').textContent = dineroTotal;
 }
 
 /**
@@ -274,11 +266,9 @@ function mostrarBatallaActual() {
   imgE.innerHTML = `<img src="${enemigo.imagen}" alt="${enemigo.nombre}">`;
 
   // info bajo las imágenes
-  document.getElementById('info-jugador-combate').innerHTML =
-    `🧝‍♂️ ${jugador.nombre}<br>Vida: ${jugador.vida}/${jugador.vidaMaxima} | Ataque: ${ataque} | Defensa: ${defensa}`;
+  document.getElementById('info-jugador-combate').innerHTML = `🧝‍♂️ ${jugador.nombre}<br>Vida: ${jugador.vida}/${jugador.vidaMaxima} | Ataque: ${ataque} | Defensa: ${defensa}`;
 
-  document.getElementById('info-enemigo-combate').innerHTML =
-    `👹 ${enemigo.nombre}<br>Vida: ${enemigo.vida} | Ataque: ${enemigo.ataque}`;
+  document.getElementById('info-enemigo-combate').innerHTML = `👹 ${enemigo.nombre}<br>Vida: ${enemigo.vida} | Ataque: ${enemigo.ataque}`;
 
   // reiniciar animaciones
   imgJ.classList.remove('anim-start');
@@ -328,10 +318,21 @@ function finalizarJuego() {
   document.getElementById('nombre-final').textContent = jugador.nombre;
   document.getElementById('puntos-final').textContent = jugador.puntos;
   document.getElementById('categoria-final').textContent = jugador.puntos >= 100 ? "pro" : "rookie";
+  document.getElementById('dinero-final').textContent = jugador.dinero;
   confetti({
     particleCount: 100,
     spread: 70,
     origin: { y: 0.6 }
   });
+  guardarInformacion();
   mostrarEscena('resultado');
+}
+
+function guardarInformacion() {
+  const jugadorToJSON = JSON.stringify(jugador);
+  localStorage.setItem("jugador", jugadorToJSON);
+
+  // Leer
+  const jugadorJSON = localStorage.getItem("jugador");
+  console.log(jugadorJSON);
 }

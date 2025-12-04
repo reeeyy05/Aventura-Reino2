@@ -95,8 +95,7 @@ function cargarMercado() {
   const rarezaElegida = rarezasDescuento[Math.floor(Math.random() * rarezasDescuento.length)];
   const porcentajeDescuento = Math.floor(Math.random() * 31) + 10; // 10–40%
 
-  document.getElementById('mensaje-descuento').textContent =
-    `🤑 ¡${porcentajeDescuento}% de descuento en items ${rarezaElegida}`;
+  document.getElementById('mensaje-descuento').textContent = `🤑 ¡${porcentajeDescuento}% de descuento en items ${rarezaElegida}`;
 
   const contenedor = document.getElementById('contenedor-productos');
   contenedor.innerHTML = '';
@@ -135,16 +134,16 @@ function cargarMercado() {
 /**
  * Funcion para actualizar la lista del carrito
  */
-function actualizarCarrito() {
-  const lista = document.getElementById('lista-carrito');
-  if (!lista) return;
-  lista.innerHTML = '';
-  productosSeleccionados.forEach(producto => {
-    const item = document.createElement('li');
-    item.textContent = producto.nombre;
-    lista.appendChild(item);
-  });
-}
+// function actualizarCarrito() {
+//   const lista = document.getElementById('lista-carrito');
+//   if (!lista) return;
+//   lista.innerHTML = '';
+//   productosSeleccionados.forEach(producto => {
+//     const item = document.createElement('li');
+//     item.textContent = producto.nombre;
+//     lista.appendChild(item);
+//   });
+// }
 
 /**
  * Funcion para confirmar la compra y actualizar el inventario del jugador
@@ -297,12 +296,12 @@ function mostrarBatallaActual() {
     <h3>⚔️ Batalla ${indiceBatallaActual + 1}</h3>
     <p><strong>Resultado:</strong> ${resultado} ${puntos ? `(+${puntos} puntos)` : ''}</p>
   `;
-  const resultadoEl = contenedor.querySelector('p:last-child');
-  resultadoEl.style.padding = "10px";
-  resultadoEl.style.borderRadius = "6px";
-  resultadoEl.style.backgroundColor = color;
-  resultadoEl.style.fontWeight = "bold";
-  resultadoEl.style.MarginTop = "8px";
+  const resultadoB = contenedor.querySelector('p:last-child');
+  resultadoB.style.padding = "10px";
+  resultadoB.style.borderRadius = "6px";
+  resultadoB.style.backgroundColor = color;
+  resultadoB.style.fontWeight = "bold";
+  resultadoB.style.MarginTop = "8px";
 
   registro.appendChild(contenedor);
 }

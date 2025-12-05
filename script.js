@@ -116,14 +116,18 @@ function cargarMercado() {
     else if (producto.curacion !== undefined) textoBonus = `Curacion: +${producto.curacion}`;
 
     tarjeta.innerHTML = `
+  <div class="producto-cover">
+    <div class="producto-capa">PRODUCTO</div>
+    <div class="producto-contenido">
       <div class="producto-imagen">
         <img src="${producto.imagen}" alt="${producto.nombre}">
       </div>
       <strong>${producto.nombre}</strong>
       <div class="rareza">${producto.rareza}</div>
       <div class="textoBonus">${textoBonus}</div>
-      <div>Precio: ${formatearMoneda(precioFinal)}</div>`;
-
+      <div>Precio: ${formatearMoneda(precioFinal)}</div>
+    </div>
+  </div>`;
 
     tarjeta.onclick = () => alternarSeleccion(producto, tarjeta);
     contenedor.appendChild(tarjeta);
@@ -267,21 +271,21 @@ function mostrarBatallaActual() {
     color = "#ffebee";
   }
 
-  // Imagen del jugador y del enemigo en la zona de combate
   const imgJ = document.getElementById('imagen-jugador-combate');
   const imgE = document.getElementById('imagen-enemigo-combate');
+
+  imgJ.classList.add('imagen-jugador-anim');
+  imgE.classList.add('imagen-enemigo-anim');
 
   imgJ.innerHTML = `<img src="${jugador.imagen}" alt="${jugador.nombre}">`;
   imgE.innerHTML = `<img src="${enemigo.imagen}" alt="${enemigo.nombre}">`;
 
-  // info bajo las imágenes
   document.getElementById('info-jugador-combate').innerHTML =
     `🧝‍♂️ ${jugador.nombre}<br>Vida: ${jugador.vida}/${jugador.vidaMaxima} | Ataque: ${ataque} | Defensa: ${defensa}`;
 
   document.getElementById('info-enemigo-combate').innerHTML =
     `👹 ${enemigo.nombre}<br>Vida: ${enemigo.vida} | Ataque: ${enemigo.ataque}`;
 
-  // reiniciar animaciones
   imgJ.classList.remove('anim-start');
   imgE.classList.remove('anim-start');
   void imgJ.offsetWidth;
@@ -302,7 +306,7 @@ function mostrarBatallaActual() {
   resultadoEl.style.borderRadius = "6px";
   resultadoEl.style.backgroundColor = color;
   resultadoEl.style.fontWeight = "bold";
-  resultadoEl.style.MarginTop = "8px";
+  resultadoEl.style.marginTop = "8px";
 
   registro.appendChild(contenedor);
 }
@@ -328,11 +332,39 @@ function siguienteBatalla() {
 function finalizarJuego() {
   document.getElementById('nombre-final').textContent = jugador.nombre;
   document.getElementById('puntos-final').textContent = jugador.puntos;
-  document.getElementById('categoria-final').textContent = jugador.puntos >= 100 ? "pro" : "rookie";
+  document.getElementById('categoria-final').textContent =
+    jugador.puntos >= 100 ? "pro" : "rookie";
+
   confetti({
     particleCount: 100,
     spread: 70,
     origin: { y: 0.6 }
   });
+
   mostrarEscena('resultado');
+}
+
+/**
+ * Funcion para reiniciar el juego y empezar de 0
+ */
+function reiniciarJuego() {
+  jugador.puntos = 0;
+  jugador.vida = jugador.vidaMaxima;
+  jugador.inventario = [];
+
+  productosSeleccionados = [];
+  listaBatallas = [];
+  indiceBatallaActual = 0;
+
+  document.getElementById('registro-batallas').innerHTML = '';
+  document.getElementById('siguiente-batalla').style.display = 'inline-block';
+  document.getElementById('finalizar').style.display = 'none';
+
+  document.getElementById('puntos-jugador').textContent = jugador.puntos;
+  document.getElementById('vida-jugador').textContent = jugador.vida;
+  document.getElementById('ataque-jugador').textContent = 0;
+  document.getElementById('defensa-jugador').textContent = 0;
+
+  cargarMercado();
+  mostrarEscena('inicio');
 }

@@ -116,18 +116,18 @@ function cargarMercado() {
     else if (producto.curacion !== undefined) textoBonus = `Curacion: +${producto.curacion}`;
 
     tarjeta.innerHTML = `
-  <div class="producto-cover">
-    <div class="producto-capa">PRODUCTO</div>
-    <div class="producto-contenido">
-      <div class="producto-imagen">
-        <img src="${producto.imagen}" alt="${producto.nombre}">
-      </div>
-      <strong>${producto.nombre}</strong>
-      <div class="rareza">${producto.rareza}</div>
-      <div class="textoBonus">${textoBonus}</div>
-      <div>Precio: ${formatearMoneda(precioFinal)}</div>
-    </div>
-  </div>`;
+      <div class="producto-cover">
+        <div class="producto-capa">PRODUCTO</div>
+        <div class="producto-contenido">
+          <div class="producto-imagen">
+            <img src="${producto.imagen}" alt="${producto.nombre}">
+          </div>
+          <strong>${producto.nombre}</strong>
+          <div class="rareza">${producto.rareza}</div>
+          <div class="textoBonus">${textoBonus}</div>
+          <div>Precio: ${formatearMoneda(precioFinal)}</div>
+        </div>
+      </div>`;
 
     tarjeta.onclick = () => alternarSeleccion(producto, tarjeta);
     contenedor.appendChild(tarjeta);

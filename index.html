@@ -106,7 +106,42 @@
         <p><strong>Puntos: </strong><span id="puntos-final">0</span></p>
         <p><strong>Categoria: </strong><span id="categoria-final"></span></p>
         <p><strong>Dinero: </strong><span id="dinero-final"></span></p>
+        <button id="mostrar-tabla" onclick="mostrarTabla()">✅ Mostrar tabla</button>
     </div>
+
+    <!-- Escena 7: Tabla -->
+    <div id="informacion-tabla" class="scene">
+        <table>
+            <tr class="encabezado">
+                <th>Jugador</th>
+                <th>Puntos</th>
+                <th>Dinero</th>
+            </tr>
+
+            <tr>
+                <td>Paco</td>
+                <td>100</td>
+                <td>250</td>
+            </tr>
+
+            <tr>
+                <td>Pepe</td>
+                <td>300</td>
+                <td>100</td>
+            </tr>
+
+            <tr>
+                <td>Manuel</td>
+                <td>500</td>
+                <td>10</td>
+            </tr>
+        </table>
+        <button id="reiniciar" onclick="reiniciarJuego()">🔁 Reiniciar Juego</button>
+    </div>
+
+    <footer>
+        <img src="img/monedero.png">
+    </footer>
 </body>
 
 </html>

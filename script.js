@@ -336,3 +336,35 @@ function guardarInformacion() {
   const jugadorJSON = localStorage.getItem("jugador");
   console.log(jugadorJSON);
 }
+
+/**
+ * Funcion para reiniciar el juego y empezar de 0
+ */
+function reiniciarJuego() {
+  jugador.puntos = 0;
+  jugador.vida = jugador.vidaMaxima;
+  jugador.inventario = [];
+
+  productosSeleccionados = [];
+  listaBatallas = [];
+  indiceBatallaActual = 0;
+
+  document.getElementById('registro-batallas').innerHTML = '';
+  document.getElementById('siguiente-batalla').style.display = 'inline-block';
+  document.getElementById('finalizar').style.display = 'none';
+
+  document.getElementById('puntos-jugador').textContent = jugador.puntos;
+  document.getElementById('vida-jugador').textContent = jugador.vida;
+  document.getElementById('ataque-jugador').textContent = 0;
+  document.getElementById('defensa-jugador').textContent = 0;
+
+  cargarMercado();
+  mostrarEscena('inicio');
+}
+
+/**
+ * 
+ */
+function mostrarTabla() {
+  mostrarEscena('informacion-tabla');
+}

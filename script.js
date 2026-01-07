@@ -117,7 +117,6 @@ function cargarMercado() {
 
     tarjeta.innerHTML = `
       <div class="producto-cover">
-        <div class="producto-capa">PRODUCTO</div>
         <div class="producto-contenido">
           <div class="producto-imagen">
             <img src="${producto.imagen}" alt="${producto.nombre}">

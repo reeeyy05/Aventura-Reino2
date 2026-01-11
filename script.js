@@ -11,12 +11,15 @@ document.addEventListener('DOMContentLoaded', () => {
  * ESTADO INICIAL DEL JUGADOR
  */
 let jugador = {
-  nombre: "Alejandro",
+  nombre: '',
   puntos: 0,
   vida: 100,
   vidaMaxima: 100,
   inventario: [],
-  imagen: "img/Jugador.svg"
+  imagen: "img/Jugador.svg",
+  ataqueBase: 0,
+  defensaBase: 0,
+  dinero: 500
 };
 
 let productosSeleccionados = [];
@@ -27,14 +30,14 @@ let indiceBatallaActual = 0;
  * ESTADO DE LOS PRODUCTOS
  */
 const listaProductos = [
-  { nombre: "Hacha Basica", rareza: "Comun", tipo: "arma", ataque: 10, precio: 500, imagen: "img/axe.png" },
-  { nombre: "Armadura Ligera", rareza: "Rara", tipo: "armadura", defensa: 10, precio: 750, imagen: "img/armor.png" },
+  { nombre: "Hacha Basica", rareza: "Comun", tipo: "arma", ataque: 10, precio: 400, imagen: "img/axe.png" },
+  { nombre: "Armadura Ligera", rareza: "Rara", tipo: "armadura", defensa: 10, precio: 350, imagen: "img/armor.png" },
   { nombre: "Pocion de vida", rareza: "Comun", tipo: "consumible", curacion: 10, precio: 200, imagen: "img/hp.png" },
-  { nombre: "Arco largo", rareza: "Epico", tipo: "arma", ataque: 25, precio: 1200, imagen: "img/bow.png" },
+  { nombre: "Arco largo", rareza: "Epico", tipo: "arma", ataque: 25, precio: 200, imagen: "img/bow.png" },
   { nombre: "Pocion de Mana", rareza: "Comun", tipo: "consumible", curacion: 40, precio: 300, imagen: "img/hp.png" },
-  { nombre: "Martillo de Guerra", rareza: "Rara", tipo: "arma", ataque: 18, precio: 1300, imagen: "img/hammer.png" },
-  { nombre: "Cota de Malla", rareza: "Epico", tipo: "armadura", defensa: 25, precio: 1400, imagen: "img/armor.png" },
-  { nombre: "Elixir Supremo", rareza: "Legendario", tipo: "consumible", curacion: 80, precio: 1800, imagen: "img/hp.png" }
+  { nombre: "Martillo de Guerra", rareza: "Rara", tipo: "arma", ataque: 18, precio: 300, imagen: "img/hammer.png" },
+  { nombre: "Cota de Malla", rareza: "Epico", tipo: "armadura", defensa: 25, precio: 400, imagen: "img/armor.png" },
+  { nombre: "Elixir Supremo", rareza: "Legendario", tipo: "consumible", curacion: 80, precio: 200, imagen: "img/hp.png" }
 ];
 
 /**
@@ -59,14 +62,69 @@ function mostrarEscena(idEscena) {
 }
 
 /**
- * Funcion para formatear una cantidad en centimos a moneda EUR
- * @param cantidadCentimos Cantidad en centimos
- * @returns Cadena formateada en EUR
+ * Crea el jugador a partir del formulario inicial
+ * @param evento Evento de envio del formulario
  */
-function formatearMoneda(cantidadCentimos) {
-  return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' })
-    .format(cantidadCentimos / 100);
+function crearJugador(evento) {
+  evento.preventDefault();
+
+  const campoNombre = document.getElementById("nombre");
+  const campoAtaque = document.getElementById("ataque-input");
+  const campoDefensa = document.getElementById("defensa-input");
+  const campoVida = document.getElementById("vida-input");
+  const zonaErrores = document.getElementById("errores-formulario");
+
+  const nombre = campoNombre.value.trim();
+  const ataque = parseInt(campoAtaque.value, 10);
+  const defensa = parseInt(campoDefensa.value, 10);
+  const vida = parseInt(campoVida.value, 10);
+
+  const expresionNombre = /^[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+(?: [A-Za-zÁÉÍÓÚÑáéíóúñ]+)*$/;
+
+  if (!nombre || nombre.length > 20 || !expresionNombre.test(nombre)) {
+    zonaErrores.textContent =
+      'Nombre inválido: empieza en mayúscula, solo letras y espacios, máximo 20 caracteres y no puede ser solo espacios.';
+    return;
+  }
+
+  if (isNaN(ataque) || isNaN(defensa) || isNaN(vida)) {
+    zonaErrores.textContent = 'Ataque, defensa y vida deben ser números enteros.';
+    return;
+  }
+
+  if (ataque < 0 || defensa < 0 || vida < 100) {
+    zonaErrores.textContent =
+      'Ataque y defensa no pueden ser negativos y la vida mínima es 100.';
+    return;
+  }
+
+  const puntosExtra = ataque + defensa + (vida - 100);
+  if (puntosExtra > 10) {
+    zonaErrores.textContent =
+      'Solo puedes repartir 10 puntos totales entre ataque, defensa y vida (por encima de 100 de vida).';
+    return;
+  }
+
+  zonaErrores.textContent = '';
+
+  jugador.nombre = nombre;
+  jugador.vida = vida;
+  jugador.vidaMaxima = vida;
+  jugador.puntos = 0;
+  jugador.inventario = [];
+  jugador.ataqueBase = ataque;
+  jugador.defensaBase = defensa;
+
+  document.getElementById('nombre-jugador').textContent = jugador.nombre;
+  document.getElementById('vida-jugador').textContent = jugador.vida;
+  document.getElementById('puntos-jugador').textContent = jugador.puntos;
+  document.getElementById('ataque-jugador').textContent = jugador.ataqueBase;
+  document.getElementById('defensa-jugador').textContent = jugador.defensaBase;
+  document.getElementById('dinero-jugador').textContent = jugador.dinero;
+
+  mostrarEscena('inicio');
 }
+
 
 /**
  * Funcion para alternar la seleccion de un producto en el carrito
@@ -124,7 +182,7 @@ function cargarMercado() {
           <strong>${producto.nombre}</strong>
           <div class="rareza">${producto.rareza}</div>
           <div class="textoBonus">${textoBonus}</div>
-          <div>Precio: ${formatearMoneda(precioFinal)}</div>
+          <div>Precio: ${precioFinal}</div>
         </div>
       </div>`;
 

@@ -1,5 +1,5 @@
 :root {
-  --color-fondo-pagina: #D3B792;
+  --color-primario: #D3B792;
   --color-panel: #ffffff;
   --color-tarjeta-producto: #8be26b;
   --color-tarjeta-producto-hover: #b6ff92;
@@ -23,7 +23,7 @@ header {
   color: black;
   position: relative;
   height: 10vh;
-  background-color: var(--color-fondo-pagina);
+  background-color: var(--color-primario);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -65,7 +65,7 @@ main {
 
 footer {
   color: black;
-  background-color: var(--color-fondo-pagina);
+  background-color: var(--color-primario);
   position: relative;
   height: 20vh;
   display: flex;
@@ -508,4 +508,43 @@ button:hover {
 #contenedor-inventario .item:hover img {
   transform: scale(1.2) translateY(-6px);
   z-index: 2;
+}
+
+.tabla-contenedor {
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.95rem;
+}
+
+table thead th {
+  position: sticky;
+  height: 40px;
+  top: 0;
+  z-index: 1;
+  background-color: yellow;
+}
+
+th,
+td {
+  border: 1px solid black;
+}
+
+table td {
+  width: 200px;
+  height: 60px;
+  padding: 15px;
+}
+
+table tr:nth-child(odd) td {
+  background-color: #897152;
+}
+
+table tr:nth-child(even) td {
+  background-color: var(--color-primario);
 }

@@ -532,5 +532,5 @@ function reiniciarJuego() {
 
   actualizarInventario();
   cargarMercado();
-  mostrarEscena('inicio');
+  mostrarEscena('formulario-jugador');
 }

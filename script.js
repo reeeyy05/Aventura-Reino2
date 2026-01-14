@@ -476,7 +476,7 @@ function finalizarJuego() {
     dinero: jugador.dinero
   };
 
-  const ranking = JSON.parse(localStorage.getItem('ranking' || '[]'));
+  const ranking = JSON.parse(localStorage.getItem('ranking') || '[]');
   ranking.push(entrada);
   localStorage.setItem('ranking', JSON.stringify(ranking));
 

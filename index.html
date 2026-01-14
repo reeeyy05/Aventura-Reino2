@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="styles.css">
-    <script src="script.js" defer></script>
+    <script src="script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
     <title>Aventura Reino</title>
 </head>
@@ -41,10 +41,9 @@
                     <input id="vida-input" name="vida-input" type="number" value="100" min="100" step="1" required>
                 </div>
 
-                <p id="errores-formulario"></p>
-
                 <button type="submit">Crear Jugador</button>
             </form>
+            <p id="errores-formulario"></p>
         </div>
 
         <!-- Escena 2: Estado jugador -->
@@ -65,16 +64,15 @@
                 </div>
             </div>
 
-            <button onclick="mostrarEscena('mercado')">➡️ Ir al Mercado</button>
+            <button onclick="mostrarEscena('mercado')">Ir al Mercado</button>
         </div>
 
         <!-- Escena 3: Mercado -->
         <div id="mercado" class="scene">
             <h2>Mercado del Reino</h2>
-            <p id="dinero"></p>
             <p id="mensaje-descuento"></p>
             <div id="contenedor-productos"></div>
-            <button onclick="confirmarCompra()">✅ Confirmar compra</button>
+            <button onclick="confirmarCompra()">Confirmar compra</button>
         </div>
 
         <!-- Escena 4: Equipar jugador -->
@@ -83,16 +81,16 @@
 
             <div class="inicio-contenedor">
                 <div class="inicio-datos">
-                    <p><strong>Jugador: </strong> <span id="nombre-actualizado">Alejandro</span></p>
-                    <p><strong>Vida: </strong><span id="vida-actualizada">100</span></p>
-                    <p><strong>Puntos: </strong> <span id="puntos-actualizado">0</span></p>
-                    <p><strong>Ataque: </strong> <span id="ataque-actualizado">0</span></p>
-                    <p><strong>Defensa: </strong> <span id="defensa-actualizada">0</span></p>
+                    <p><strong>Jugador: </strong> <span id="nombre-actualizado"></span></p>
+                    <p><strong>Vida: </strong><span id="vida-actualizada"></span></p>
+                    <p><strong>Puntos: </strong> <span id="puntos-actualizado"></span></p>
+                    <p><strong>Ataque: </strong> <span id="ataque-actualizado"></span></p>
+                    <p><strong>Defensa: </strong> <span id="defensa-actualizada"></span></p>
                     <p><strong>Dinero: </strong> <span id="dinero-actualizado"></span></p>
                 </div>
             </div>
 
-            <button onclick="mostrarEscena('enemigos')">⚔️ Batallas</button>
+            <button onclick="mostrarEscena('enemigos')"> Mostrar Enemigos</button>
         </div>
 
 
@@ -100,12 +98,17 @@
         <div id="enemigos" class="scene">
             <h2>Enemigos del Reino</h2>
             <div id="contenedor-enemigos"></div>
-            <button onclick="iniciarBatallas()">🔥Comenzar batallas</button>
+            <button onclick="iniciarBatallas()">Comenzar batallas</button>
         </div>
 
         <!-- Escena 6: Batallas -->
         <div id="batallas" class="scene">
             <h2>Batallas</h2>
+            <div id="monedas">
+                <img src="IMG/moneda.png" alt="moneda">
+                <img src="IMG/moneda.png" alt="moneda">
+                <img src="IMG/moneda.png" alt="moneda">
+            </div>
 
             <div id="zona-combate">
                 <div class="fila-combate">
@@ -127,18 +130,17 @@
                 <div id="registro-batallas"></div>
             </div>
 
-            <button id="siguiente-batalla" onclick="siguienteBatalla()">➡️ Siguiente Batalla</button>
-            <button id="finalizar" onclick="finalizarJuego()">🏆 Terminar Batallas</button>
+            <button id="siguiente-batalla" onclick="siguienteBatalla()">Siguiente Batalla</button>
+            <button id="finalizar" onclick="finalizarJuego()">Terminar Batallas</button>
         </div>
 
         <!-- Escena 7: Ranking -->
         <div id="resultado" class="scene">
             <h2>Resultado Final</h2>
-            <p><strong>Jugador: </strong><span id="nombre-final">Alejandro</span></p>
-            <p><strong>Puntos: </strong><span id="puntos-final">0</span></p>
+            <p><strong>Jugador: </strong><span id="nombre-final"></span></p>
+            <p><strong>Puntos: </strong><span id="puntos-final"></span></p>
             <p><strong>Categoria: </strong><span id="categoria-final"></span></p>
-            <p><strong>Dinero: </strong><span id="dinero-final"></span></p>
-            <button id="mostrar-tabla" onclick="mostrarTabla()">✅ Ver clasificaci&acute;n</button>
+            <button id="mostrar-tabla" onclick="mostrarTabla()">Ver clasificaci&oacute;n</button>
         </div>
 
         <!-- Escena 8: Tabla -->
@@ -149,39 +151,15 @@
                     <th>Puntos</th>
                     <th>Dinero</th>
                 </tr>
-
-                <tr>
-                    <td>Paco</td>
-                    <td>100</td>
-                    <td>250</td>
-                </tr>
-
-                <tr>
-                    <td>Pepe</td>
-                    <td>300</td>
-                    <td>100</td>
-                </tr>
-
-                <tr>
-                    <td>Manuel</td>
-                    <td>500</td>
-                    <td>10</td>
-                </tr>
             </table>
-            <button id="reiniciar" onclick="reiniciarJuego()">🔁 Reiniciar Juego</button>
+            <button id="reiniciar" onclick="reiniciarJuego()">Reiniciar Juego</button>
         </div>
     </main>
-
-    <!-- <div id="monedas">
-        <img src="IMG/moneda.png" alt="moneda">
-        <img src="IMG/moneda.png" alt="moneda">
-        <img src="IMG/moneda.png" alt="moneda">
-    </div> -->
 
     <footer>
         <div id="monedero">
             <img src="img/monedero.png">
-            <span>500</span>
+            <span id="dinero">500</span>
         </div>
         <div id="contenedor-inventario">
             <div class="item"></div>

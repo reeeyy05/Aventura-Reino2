@@ -1,10 +1,37 @@
 /**
  * INICIO DEL JUEGO DE AVENTURAS CON MERCADO Y BATALLAS
+ * Se controla que solo se repartan 10 puntos extras en total
  * @author Alejandro Rey Tostado
  */
 document.addEventListener('DOMContentLoaded', () => {
   cargarMercado();
   cargarEnemigos();
+
+  const ataqueInput = document.getElementById('ataque-input');
+  const defensaInput = document.getElementById('defensa-input');
+  const vidaInput = document.getElementById('vida-input');
+
+  const limitarPuntos = () => {
+    const ataque = parseInt(ataqueInput.value || '0', 10);
+    const defensa = parseInt(defensaInput.value || '0', 10);
+    const vida = parseInt(vidaInput.value || '100', 10);
+
+    const puntosExtra = ataque + defensa + (vida - 100);
+    if (puntosExtra > 10) {
+      const exceso = puntosExtra - 10;
+      if (document.activeElement === ataqueInput) {
+        ataqueInput.value = Math.max(0, ataque - exceso);
+      } else if (document.activeElement === defensaInput) {
+        defensaInput.value = Math.max(0, defensa - exceso);
+      } else if (document.activeElement === vidaInput) {
+        vidaInput.value = Math.max(0, vida - exceso);
+      }
+    }
+  };
+
+  ataqueInput.addEventListener('input', limitarPuntos);
+  defensaInput.addEventListener('input', limitarPuntos);
+  vidaInput.addEventListener('input', limitarPuntos);
 });
 
 /**
@@ -30,13 +57,13 @@ let indiceBatallaActual = 0;
  * ESTADO DE LOS PRODUCTOS
  */
 const listaProductos = [
-  { nombre: "Hacha Basica", rareza: "Comun", tipo: "arma", ataque: 10, precio: 400, imagen: "img/axe.png" },
-  { nombre: "Armadura Ligera", rareza: "Rara", tipo: "armadura", defensa: 10, precio: 350, imagen: "img/armor.png" },
+  { nombre: "Hacha Basica", rareza: "Comun", tipo: "arma", ataque: 10, precio: 200, imagen: "img/axe.png" },
+  { nombre: "Armadura Ligera", rareza: "Rara", tipo: "armadura", defensa: 10, precio: 300, imagen: "img/armor.png" },
   { nombre: "Pocion de vida", rareza: "Comun", tipo: "consumible", curacion: 10, precio: 200, imagen: "img/hp.png" },
   { nombre: "Arco largo", rareza: "Epico", tipo: "arma", ataque: 25, precio: 200, imagen: "img/bow.png" },
   { nombre: "Pocion de Mana", rareza: "Comun", tipo: "consumible", curacion: 40, precio: 300, imagen: "img/hp.png" },
   { nombre: "Martillo de Guerra", rareza: "Rara", tipo: "arma", ataque: 18, precio: 300, imagen: "img/hammer.png" },
-  { nombre: "Cota de Malla", rareza: "Epico", tipo: "armadura", defensa: 25, precio: 400, imagen: "img/armor.png" },
+  { nombre: "Cota de Malla", rareza: "Epico", tipo: "armadura", defensa: 25, precio: 300, imagen: "img/armor.png" },
   { nombre: "Elixir Supremo", rareza: "Legendario", tipo: "consumible", curacion: 80, precio: 200, imagen: "img/hp.png" }
 ];
 
@@ -49,7 +76,7 @@ const listaEnemigos = [
   { nombre: "Troll", ataque: 35, vida: 120, tipo: "normal", imagen: "img/enemigo.png" },
   { nombre: "Esqueleto Guerrero", ataque: 20, vida: 70, tipo: "normal", imagen: "img/esqueleto.png" },
   { nombre: "Dragón", ataque: 40, vida: 180, tipo: "jefe", imagen: "img/dragon.png" },
-  { nombre: "Señor de la Sombra", ataque: 45, vida: 150, tipo: "jefe", imagen: "img/sombra.png" }
+  { nombre: "Señor de la Sombra", ataque: 45, vida: 150, tipo: "jefe", imagen: "img/sombra.jpg" }
 ];
 
 /**
@@ -98,13 +125,6 @@ function crearJugador(evento) {
     return;
   }
 
-  const puntosExtra = ataque + defensa + (vida - 100);
-  if (puntosExtra > 10) {
-    zonaErrores.textContent =
-      'Solo puedes repartir 10 puntos totales entre ataque, defensa y vida (por encima de 100 de vida).';
-    return;
-  }
-
   zonaErrores.textContent = '';
 
   jugador.nombre = nombre;
@@ -125,6 +145,16 @@ function crearJugador(evento) {
   mostrarEscena('inicio');
 }
 
+/**
+ * Actualiza el dinero disponible del jugador
+ */
+function actualizarDinero() {
+  const spanMonedero = document.getElementById('dinero');
+  if (spanMonedero) {
+    spanMonedero.textContent = jugador.dinero;
+  }
+}
+
 
 /**
  * Funcion para alternar la seleccion de un producto en el carrito
@@ -136,13 +166,20 @@ function alternarSeleccion(producto, elemento) {
 
   if (yaSeleccionado) {
     productosSeleccionados = productosSeleccionados.filter(p => p.nombre !== producto.nombre);
+    jugador.dinero += producto.precio;
     elemento.classList.remove('seleccionado');
   } else {
+    if (jugador.dinero < producto.precio) {
+      alert('No tienes suficiente dinero para comprar este objeto.');
+      return;
+    }
     productosSeleccionados.push(producto);
+    jugador.dinero -= producto.precio;
     elemento.classList.add('seleccionado');
   }
 
   actualizarCarrito();
+  actualizarDinero(); // solo cambia el número encima del saco [web:245][web:250]
 }
 
 /**
@@ -191,6 +228,7 @@ function cargarMercado() {
   });
 
   productosSeleccionados = [];
+  actualizarDinero();
 }
 
 /**
@@ -208,6 +246,32 @@ function actualizarCarrito() {
 }
 
 /**
+ * Funcion para actualizar la informacion del jugador
+ */
+function actualizarJugador() {
+  let ataque = 0;
+  let defensa = 0;
+  let vida = 0;
+
+  for (const item of jugador.inventario) {
+    if (item.ataque) ataque += item.ataque;
+    if (item.defensa) defensa += item.defensa;
+    if (item.curacion) vida += item.curacion;
+  }
+
+  const ataqueTotal = jugador.ataqueBase + ataque;
+  const defensaTotal = jugador.defensaBase + defensa;
+  const vidaTotal = jugador.vidaMaxima + vida;
+
+  document.getElementById('nombre-actualizado').textContent = jugador.nombre;
+  document.getElementById('vida-actualizada').textContent = vidaTotal;
+  document.getElementById('puntos-actualizado').textContent = jugador.puntos;
+  document.getElementById('ataque-actualizado').textContent = ataqueTotal;
+  document.getElementById('defensa-actualizada').textContent = defensaTotal;
+  document.getElementById('dinero-actualizado').textContent = jugador.dinero;
+}
+
+/**
  * Funcion para confirmar la compra y actualizar el inventario del jugador
  */
 function confirmarCompra() {
@@ -216,30 +280,31 @@ function confirmarCompra() {
     tipo: p.tipo,
     ataque: p.ataque,
     defensa: p.defensa,
-    curacion: p.curacion
+    curacion: p.curacion,
+    imagen: p.imagen
   }));
 
   actualizarJugador();
+  actualizarInventario();
   mostrarEscena('jugador');
 }
 
 /**
- * Funcion para actualizar la informacion del jugador
+ * Muestra en las casillas del inventario las imagenes de los productos comprados
  */
-function actualizarJugador() {
-  let ataqueTotal = 0;
-  let defensaTotal = 0;
+function actualizarInventario() {
+  const casilla = document.querySelectorAll('#contenedor-inventario .item');
 
-  for (const item of jugador.inventario) {
-    if (item.ataque) ataqueTotal += item.ataque;
-    if (item.defensa) defensaTotal += item.defensa;
-  }
-
-  document.getElementById('nombre-actualizado').textContent = jugador.nombre;
-  document.getElementById('vida-actualizada').textContent = jugador.vida;
-  document.getElementById('puntos-actualizado').textContent = jugador.puntos;
-  document.getElementById('ataque-actualizado').textContent = ataqueTotal;
-  document.getElementById('defensa-actualizada').textContent = defensaTotal;
+  casilla.forEach((casilla, indice) => {
+    casilla.innerHTML = '';
+    const item = jugador.inventario[indice];
+    if (item && item.imagen) {
+      const img = document.createElement('img');
+      img.src = item.imagen;
+      img.alt = item.nombre;
+      casilla.appendChild(img);
+    }
+  });
 }
 
 /**
@@ -328,6 +393,13 @@ function mostrarBatallaActual() {
     color = "#ffebee";
   }
 
+  const contenedorMonedas = document.getElementById('monedas');
+  if (contenedorMonedas) {
+    contenedorMonedas.classList.remove('animar-monedas');
+    void contenedorMonedas.offsetWidth; // reinicia animación [web:266][web:265]
+    contenedorMonedas.classList.add('animar-monedas');
+  }
+
   const imgJ = document.getElementById('imagen-jugador-combate');
   const imgE = document.getElementById('imagen-enemigo-combate');
 
@@ -398,7 +470,43 @@ function finalizarJuego() {
     origin: { y: 0.6 }
   });
 
+  const entrada = {
+    nombre: jugador.nombre,
+    puntos: jugador.puntos,
+    dinero: jugador.dinero
+  };
+
+  const ranking = JSON.parse(localStorage.getItem('ranking' || '[]'));
+  ranking.push(entrada);
+  localStorage.setItem('ranking', JSON.stringify(ranking));
+
   mostrarEscena('resultado');
+}
+
+function mostrarTabla() {
+  const ranking = JSON.parse(localStorage.getItem('ranking') || '[]');
+
+  const tabla = document.querySelector('#informacion-tabla table');
+  if (!tabla) return;
+
+  while (tabla.rows.length > 1) {
+    tabla.deleteRow(1);
+  }
+
+  const ordenado = [...ranking].sort((a, b) => b.puntos - a.puntos);
+
+  ordenado.forEach(jugadorRank => {
+    const fila = tabla.insertRow(-1);
+    const celdaNombre = fila.insertCell(0);
+    const celdaPuntos = fila.insertCell(1);
+    const celdaDinero = fila.insertCell(2);
+
+    celdaNombre.textContent = jugadorRank.nombre;
+    celdaPuntos.textContent = jugadorRank.puntos;
+    celdaDinero.textContent = jugadorRank.dinero;
+  });
+
+  mostrarEscena('informacion-tabla');
 }
 
 /**
@@ -422,6 +530,7 @@ function reiniciarJuego() {
   document.getElementById('ataque-jugador').textContent = 0;
   document.getElementById('defensa-jugador').textContent = 0;
 
+  actualizarInventario();
   cargarMercado();
   mostrarEscena('inicio');
 }

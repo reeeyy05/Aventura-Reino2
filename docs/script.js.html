@@ -1,4 +1,32 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: script.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: script.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * Inicializa el mercado y los enemigos
  * Limita los puntos extras
  * @author Alejandro Rey Tostado
@@ -133,7 +161,7 @@ function crearJugador(evento) {
     return;
   }
 
-  if (ataque < 0 || defensa < 0 || vida < 100) {
+  if (ataque &lt; 0 || defensa &lt; 0 || vida &lt; 100) {
     zonaErrores.textContent =
       'Ataque y defensa no pueden ser negativos y la vida mínima es 100.';
     return;
@@ -183,7 +211,7 @@ function alternarSeleccion(producto, elemento) {
     jugador.dinero += producto.precio;
     elemento.classList.remove('seleccionado');
   } else {
-    if (jugador.dinero < producto.precio) {
+    if (jugador.dinero &lt; producto.precio) {
       alert('No tienes suficiente dinero para comprar este objeto.');
       return;
     }
@@ -225,17 +253,17 @@ function cargarMercado() {
     else if (producto.curacion !== undefined) textoBonus = `Curacion: +${producto.curacion}`;
 
     tarjeta.innerHTML = `
-      <div class="producto-cover">
-        <div class="producto-contenido">
-          <div class="producto-imagen">
-            <img src="${producto.imagen}" alt="${producto.nombre}">
-          </div>
-          <strong>${producto.nombre}</strong>
-          <div class="rareza">${producto.rareza}</div>
-          <div class="textoBonus">${textoBonus}</div>
-          <div>Precio: ${precioFinal}</div>
-        </div>
-      </div>`;
+      &lt;div class="producto-cover">
+        &lt;div class="producto-contenido">
+          &lt;div class="producto-imagen">
+            &lt;img src="${producto.imagen}" alt="${producto.nombre}">
+          &lt;/div>
+          &lt;strong>${producto.nombre}&lt;/strong>
+          &lt;div class="rareza">${producto.rareza}&lt;/div>
+          &lt;div class="textoBonus">${textoBonus}&lt;/div>
+          &lt;div>Precio: ${precioFinal}&lt;/div>
+        &lt;/div>
+      &lt;/div>`;
 
     tarjeta.onclick = () => alternarSeleccion(producto, tarjeta);
     contenedor.appendChild(tarjeta);
@@ -313,7 +341,7 @@ function actualizarInventario() {
   casilla.forEach((casilla, indice) => {
     casilla.innerHTML = '';
     const item = jugador.inventario[indice];
-    if (item && item.imagen) {
+    if (item &amp;&amp; item.imagen) {
       const img = document.createElement('img');
       img.src = item.imagen;
       img.alt = item.nombre;
@@ -334,15 +362,15 @@ function cargarEnemigos() {
     tarjeta.className = 'tarjeta-enemigo';
 
     tarjeta.innerHTML = `
-      <div class="enemigo-imagen">
-        <img src="${enemigo.imagen}" alt="${enemigo.nombre}">
-      </div>
-      <div class="enemigo-datos">
-        <strong>${enemigo.nombre}</strong>
-        <div>Tipo: ${enemigo.tipo === 'jefe' ? 'Jefe' : 'Enemigo'}</div>
-        <div>Ataque: ${enemigo.ataque}</div>
-        <div>Vida: ${enemigo.vida}</div>
-      </div>
+      &lt;div class="enemigo-imagen">
+        &lt;img src="${enemigo.imagen}" alt="${enemigo.nombre}">
+      &lt;/div>
+      &lt;div class="enemigo-datos">
+        &lt;strong>${enemigo.nombre}&lt;/strong>
+        &lt;div>Tipo: ${enemigo.tipo === 'jefe' ? 'Jefe' : 'Enemigo'}&lt;/div>
+        &lt;div>Ataque: ${enemigo.ataque}&lt;/div>
+        &lt;div>Vida: ${enemigo.vida}&lt;/div>
+      &lt;/div>
     `;
 
     contenedorEnemigo.appendChild(tarjeta);
@@ -356,7 +384,7 @@ function iniciarBatallas() {
   listaBatallas = [];
   indiceBatallaActual = 0;
 
-  while (listaBatallas.length < 3) {
+  while (listaBatallas.length &lt; 3) {
     const indice = Math.floor(Math.random() * listaEnemigos.length);
     const enemigo = listaEnemigos[indice];
 
@@ -407,14 +435,14 @@ function mostrarBatallaActual() {
   imgJ.classList.add('imagen-jugador-anim');
   imgE.classList.add('imagen-enemigo-anim');
 
-  imgJ.innerHTML = `<img src="${jugador.imagen}" alt="${jugador.nombre}">`;
-  imgE.innerHTML = `<img src="${enemigo.imagen}" alt="${enemigo.nombre}">`;
+  imgJ.innerHTML = `&lt;img src="${jugador.imagen}" alt="${jugador.nombre}">`;
+  imgE.innerHTML = `&lt;img src="${enemigo.imagen}" alt="${enemigo.nombre}">`;
 
   document.getElementById('info-jugador-combate').innerHTML =
-    `🧝‍♂️ ${jugador.nombre}<br>Vida: ${jugador.vida}/${jugador.vidaMaxima} | Ataque: ${ataque} | Defensa: ${defensa}`;
+    `🧝‍♂️ ${jugador.nombre}&lt;br>Vida: ${jugador.vida}/${jugador.vidaMaxima} | Ataque: ${ataque} | Defensa: ${defensa}`;
 
   document.getElementById('info-enemigo-combate').innerHTML =
-    `👹 ${enemigo.nombre}<br>Vida: ${enemigo.vida} | Ataque: ${enemigo.ataque}`;
+    `👹 ${enemigo.nombre}&lt;br>Vida: ${enemigo.vida} | Ataque: ${enemigo.ataque}`;
 
   imgJ.classList.remove('anim-start');
   imgE.classList.remove('anim-start');
@@ -428,8 +456,8 @@ function mostrarBatallaActual() {
 
   const contenedor = document.createElement('div');
   contenedor.innerHTML = `
-    <h3>⚔️ Batalla ${indiceBatallaActual + 1}</h3>
-    <p><strong>Resultado:</strong> ${resultado} ${puntos ? `(+${puntos} puntos)` : ''}</p>
+    &lt;h3>⚔️ Batalla ${indiceBatallaActual + 1}&lt;/h3>
+    &lt;p>&lt;strong>Resultado:&lt;/strong> ${resultado} ${puntos ? `(+${puntos} puntos)` : ''}&lt;/p>
   `;
   const resultadoEl = contenedor.querySelector('p:last-child');
   resultadoEl.style.padding = "10px";
@@ -537,4 +565,26 @@ function reiniciarJuego() {
   actualizarInventario();
   cargarMercado();
   mostrarEscena('formulario-jugador');
-}
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Enemigos.html">Enemigos</a></li><li><a href="Jefe.html">Jefe</a></li><li><a href="Jugadores.html">Jugadores</a></li><li><a href="Producto_Producto.html">Producto</a></li></ul><h3>Global</h3><ul><li><a href="global.html#actualizarCarrito">actualizarCarrito</a></li><li><a href="global.html#actualizarDinero">actualizarDinero</a></li><li><a href="global.html#actualizarInventario">actualizarInventario</a></li><li><a href="global.html#actualizarJugador">actualizarJugador</a></li><li><a href="global.html#alternarSeleccion">alternarSeleccion</a></li><li><a href="global.html#cargarEnemigos">cargarEnemigos</a></li><li><a href="global.html#cargarMercado">cargarMercado</a></li><li><a href="global.html#confirmarCompra">confirmarCompra</a></li><li><a href="global.html#crearJugador">crearJugador</a></li><li><a href="global.html#finalizarJuego">finalizarJuego</a></li><li><a href="global.html#indiceBatallaActual">indiceBatallaActual</a></li><li><a href="global.html#iniciarBatallas">iniciarBatallas</a></li><li><a href="global.html#jugador">jugador</a></li><li><a href="global.html#listaBatallas">listaBatallas</a></li><li><a href="global.html#listaEnemigos">listaEnemigos</a></li><li><a href="global.html#listaProductos">listaProductos</a></li><li><a href="global.html#mostrarBatallaActual">mostrarBatallaActual</a></li><li><a href="global.html#mostrarEscena">mostrarEscena</a></li><li><a href="global.html#mostrarTabla">mostrarTabla</a></li><li><a href="global.html#productosSeleccionados">productosSeleccionados</a></li><li><a href="global.html#reiniciarJuego">reiniciarJuego</a></li><li><a href="global.html#siguienteBatalla">siguienteBatalla</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Thu Jan 15 2026 12:28:14 GMT+0100 (hora estándar de Europa central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

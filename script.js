@@ -1,6 +1,6 @@
 /**
- * INICIO DEL JUEGO DE AVENTURAS CON MERCADO Y BATALLAS
- * Se controla que solo se repartan 10 puntos extras en total
+ * Inicializa el mercado y los enemigos
+ * Limita los puntos extras
  * @author Alejandro Rey Tostado
  */
 document.addEventListener('DOMContentLoaded', () => {
@@ -34,8 +34,9 @@ document.addEventListener('DOMContentLoaded', () => {
   vidaInput.addEventListener('input', limitarPuntos);
 });
 
+
 /**
- * ESTADO INICIAL DEL JUGADOR
+ * Estado del Jugador
  */
 let jugador = {
   nombre: '',
@@ -49,12 +50,23 @@ let jugador = {
   dinero: 500
 };
 
+/**
+ * Lista de productos seleccionados
+ */
 let productosSeleccionados = [];
+
+/**
+ * Lista de enemigos elegido para las batallas
+ */
 let listaBatallas = [];
+
+/**
+ * Indice de la batalla
+ */
 let indiceBatallaActual = 0;
 
 /**
- * ESTADO DE LOS PRODUCTOS
+ * Listado de todos los productos
  */
 const listaProductos = [
   { nombre: "Hacha Basica", rareza: "Comun", tipo: "arma", ataque: 10, precio: 200, imagen: "img/axe.png" },
@@ -67,8 +79,9 @@ const listaProductos = [
   { nombre: "Elixir Supremo", rareza: "Legendario", tipo: "consumible", curacion: 80, precio: 200, imagen: "img/hp.png" }
 ];
 
+
 /**
- * ESTADO DE LOS ENEMIGOS
+ * Listade de todos los enemigos
  */
 const listaEnemigos = [
   { nombre: "Goblin", ataque: 15, vida: 60, tipo: "normal", imagen: "img/enemigo.png" },
@@ -80,8 +93,8 @@ const listaEnemigos = [
 ];
 
 /**
- * Funcion para mostrar una escena y ocultar las demas
- * @param idEscena ID de la escena a mostrar
+ * Muestra una escena de la interfaz
+ * @param {*} idEscena - ID de la escena que se quiere mostrar
  */
 function mostrarEscena(idEscena) {
   document.querySelectorAll('.scene').forEach(elemento => elemento.classList.remove('active'));
@@ -89,8 +102,9 @@ function mostrarEscena(idEscena) {
 }
 
 /**
- * Crea el jugador a partir del formulario inicial
- * @param evento Evento de envio del formulario
+ * Crea el jugador a partir del formulario
+ *
+ * @param {*} evento - Evento del envio del formulario
  */
 function crearJugador(evento) {
   evento.preventDefault();
@@ -146,7 +160,7 @@ function crearJugador(evento) {
 }
 
 /**
- * Actualiza el dinero disponible del jugador
+ * Actualiza el dinero que tiene el jugador
  */
 function actualizarDinero() {
   const spanMonedero = document.getElementById('dinero');
@@ -155,11 +169,11 @@ function actualizarDinero() {
   }
 }
 
-
 /**
- * Funcion para alternar la seleccion de un producto en el carrito
- * @param producto Producto a seleccionar/deseleccionar
- * @param elemento Elemento HTML del producto
+ * Alterna la seleccion del producto en el mercado
+ *
+ * @param {*} producto - Producto a seleccionar o seleccionado
+ * @param {*} elemento - Elemento de la tarjeta HTML asociada al producto
  */
 function alternarSeleccion(producto, elemento) {
   const yaSeleccionado = productosSeleccionados.some(p => p.nombre === producto.nombre);
@@ -179,11 +193,11 @@ function alternarSeleccion(producto, elemento) {
   }
 
   actualizarCarrito();
-  actualizarDinero(); // solo cambia el número encima del saco [web:245][web:250]
+  actualizarDinero();
 }
 
 /**
- * Funcion para cargar el mercado con productos y aplicar descuentos aleatorios
+ * Carga el mercado con todos los productos disponibles y asignando un descuento a un tipo de producto aleatorio
  */
 function cargarMercado() {
   const rarezasDescuento = ["Comun", "Rara", "Epico", "Legendario"];
@@ -232,7 +246,7 @@ function cargarMercado() {
 }
 
 /**
- * Funcion para actualizar la lista del carrito
+ * Actualiza la lista de los productos seleccionados
  */
 function actualizarCarrito() {
   const lista = document.getElementById('lista-carrito');
@@ -246,7 +260,7 @@ function actualizarCarrito() {
 }
 
 /**
- * Funcion para actualizar la informacion del jugador
+ * Calcula todas las estadisticas del jugador y las muestra
  */
 function actualizarJugador() {
   let ataque = 0;
@@ -271,8 +285,9 @@ function actualizarJugador() {
   document.getElementById('dinero-actualizado').textContent = jugador.dinero;
 }
 
+
 /**
- * Funcion para confirmar la compra y actualizar el inventario del jugador
+ * Confirma la compra en el mercado y construye el inventario del jugador a partir de los productos seleccionados
  */
 function confirmarCompra() {
   jugador.inventario = productosSeleccionados.map(p => ({
@@ -290,7 +305,7 @@ function confirmarCompra() {
 }
 
 /**
- * Muestra en las casillas del inventario las imagenes de los productos comprados
+ * Pinta en las casillas del inventario las imagenes de los productos comprados
  */
 function actualizarInventario() {
   const casilla = document.querySelectorAll('#contenedor-inventario .item');
@@ -308,7 +323,7 @@ function actualizarInventario() {
 }
 
 /**
- * Funcion para cargar los enemigos
+ * Carga la lista de los enemigos con sus atributos
  */
 function cargarEnemigos() {
   const contenedorEnemigo = document.getElementById('contenedor-enemigos');
@@ -335,7 +350,7 @@ function cargarEnemigos() {
 }
 
 /**
- * Funcion para iniciar las batallas
+ * Inicia una nueva ronda de las batallas seleccionando 3 enemigos distintos
  */
 function iniciarBatallas() {
   listaBatallas = [];
@@ -359,21 +374,7 @@ function iniciarBatallas() {
 }
 
 /**
- * Funcion para calcular los stats de ataque y defensa del jugador
- * @returns Objeto con stats de ataque y defensa del jugador
- */
-function statsJugador() {
-  let ataque = 0;
-  let defensa = 0;
-  for (const item of jugador.inventario) {
-    if (item.ataque) ataque += item.ataque;
-    if (item.defensa) defensa += item.defensa;
-  }
-  return { ataque, defensa };
-}
-
-/**
- * Funcion para mostrar la batalla actual
+ * Muestra en pantalla la batalla actual, calcula el resultado y actualiza el registro de batallas y los puntos del jugador
  */
 function mostrarBatallaActual() {
   const enemigo = listaBatallas[indiceBatallaActual];
@@ -396,7 +397,7 @@ function mostrarBatallaActual() {
   const contenedorMonedas = document.getElementById('monedas');
   if (contenedorMonedas) {
     contenedorMonedas.classList.remove('animar-monedas');
-    void contenedorMonedas.offsetWidth; // reinicia animación [web:266][web:265]
+    void contenedorMonedas.offsetWidth;
     contenedorMonedas.classList.add('animar-monedas');
   }
 
@@ -441,7 +442,7 @@ function mostrarBatallaActual() {
 }
 
 /**
- * Funcion para avanzar a la siguiente batalla
+ * Avanza a la siguiente batalla de la lista o el muestra el boton de finalizar
  */
 function siguienteBatalla() {
   indiceBatallaActual++;
@@ -456,7 +457,7 @@ function siguienteBatalla() {
 }
 
 /**
- * Funcion para finalizar el juego y mostrar resultados
+ * Finaliza la ronda de las batallas, muestra la escena de los resultados y guarda el resultado en la LocalStorage
  */
 function finalizarJuego() {
   document.getElementById('nombre-final').textContent = jugador.nombre;
@@ -483,6 +484,10 @@ function finalizarJuego() {
   mostrarEscena('resultado');
 }
 
+/**
+ * Muestra la tabla del ranking ordenada por puntos de mayor a menor con la informacion recogida en la LocalStorage
+ * @returns 
+ */
 function mostrarTabla() {
   const ranking = JSON.parse(localStorage.getItem('ranking') || '[]');
 
@@ -510,7 +515,7 @@ function mostrarTabla() {
 }
 
 /**
- * Funcion para reiniciar el juego y empezar de 0
+ * Reinicia el juego devolviendo al jugador a su estado inicial
  */
 function reiniciarJuego() {
   jugador.puntos = 0;

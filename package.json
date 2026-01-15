@@ -1,0 +1,25 @@
+{
+  "name": "aventura-reino2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "jsdoc": "jsdoc src script.js -r -d docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reeeyy05/Aventura-Reino2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/reeeyy05/Aventura-Reino2/issues"
+  },
+  "homepage": "https://github.com/reeeyy05/Aventura-Reino2#readme",
+  "devDependencies": {
+    "jsdoc": "^4.0.5"
+  }
+}

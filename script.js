@@ -486,7 +486,6 @@ function finalizarJuego() {
 
 /**
  * Muestra la tabla del ranking ordenada por puntos de mayor a menor con la informacion recogida en la LocalStorage
- * @returns 
  */
 function mostrarTabla() {
   const ranking = JSON.parse(localStorage.getItem('ranking') || '[]');

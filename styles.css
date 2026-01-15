@@ -277,7 +277,8 @@ button:hover {
 
 #contenedor-enemigos {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-rows: auto;
   gap: 14px;
   max-width: 900px;
   margin: 18px auto 14px auto;
@@ -547,4 +548,209 @@ table tr:nth-child(odd) td {
 
 table tr:nth-child(even) td {
   background-color: var(--color-primario);
+}
+
+/* Tablets / pantallas medianas */
+@media (max-width: 1024px) {
+  .scene {
+    width: 100%;
+    max-width: 100%;
+    padding: 12px;
+  }
+
+  #contenedor-productos {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    max-width: 100%;
+  }
+
+  #contenedor-enemigos {
+    max-width: 100%;
+  }
+
+  .fila-combate {
+    gap: 16px;
+  }
+
+  #contenedor-inventario {
+    max-width: 100%;
+    flex-wrap: wrap;
+  }
+}
+
+/* Móviles pequeños (≤ 360px) */
+@media (max-width: 360px) {
+  body {
+    overflow: auto;
+  }
+
+  header,
+  footer {
+    height: auto;
+    min-height: 60px;
+    text-align: center;
+    padding: 8px;
+  }
+
+  main {
+    height: auto;
+    min-height: calc(100vh - 140px);
+    padding: 6px;
+    align-items: flex-start;
+  }
+
+  .scene {
+    width: 100%;
+    max-width: 100%;
+    padding: 8px 6px;
+    border-radius: 0;
+  }
+
+  /* Inventario */
+  #contenedor-inventario {
+    max-width: 100%;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 10px;
+  }
+
+  .item {
+    width: 60px;
+    height: 60px;
+  }
+
+  /* Inicio */
+  .inicio-contenedor {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .inicio-imagen img {
+    width: 100px;
+    height: 100px;
+  }
+
+  /* Formulario jugador */
+  .form-jugador {
+    max-width: 100%;
+    padding: 0 6px;
+  }
+
+  .grupo-form {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .grupo-form label {
+    min-width: 0;
+  }
+
+  .grupo-form input {
+    width: 100%;
+  }
+
+  /* Mercado productos: 1 columna */
+  #contenedor-productos {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .tarjeta-producto img {
+    width: 80px;
+    height: 80px;
+  }
+
+  /* Enemigos: 1 columna */
+  #contenedor-enemigos {
+    grid-template-columns: 1fr;
+    padding: 8px;
+    gap: 10px;
+  }
+
+  .enemigo-imagen,
+  .imagen-combate,
+  #imagen-jugador-combate,
+  #imagen-enemigo-combate {
+    width: 90px;
+    height: 90px;
+  }
+
+  .enemigo-imagen img,
+  .imagen-combate img,
+  #imagen-jugador-combate img,
+  #imagen-enemigo-combate img {
+    width: 80px;
+    height: 80px;
+  }
+
+  /* Combate en columna */
+  .fila-combate {
+    flex-direction: vertical;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .col-combate {
+    min-width: 0;
+    text-align: center;
+  }
+
+  /* Botones */
+  button {
+    width: 100%;
+    max-width: 220px;
+    margin: 6px auto;
+    font-size: 13px;
+    padding: 7px 10px;
+  }
+
+  /* Monedas animación algo más pequeña */
+  #monedas {
+    top: 45vh;
+    height: 50px;
+  }
+
+  #monedas img {
+    width: 70px;
+    height: 70px;
+  }
+
+  /* Tabla ranking en móvil */
+  .tabla-contenedor {
+    max-height: 200px;
+    overflow-y: auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.8rem;
+  }
+
+  table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: var(--color-primario);
+  }
+
+  th,
+  td {
+    border: 1px solid black;
+  }
+
+  table td,
+  table th {
+    padding: 6px 8px;
+    height: auto;
+  }
+
+  table tbody tr:nth-child(odd) td {
+    background-color: #897152;
+  }
+
+  table tbody tr:nth-child(even) td {
+    background-color: var(--color-primario);
+  }
 }

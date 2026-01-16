@@ -6,6 +6,21 @@
   --color-tarjeta-enemigo: #ffb4b4;
 }
 
+#mensaje {
+  position: fixed;
+  right: 10px;
+  background-color: gray;
+  border: 1px solid black;
+  width: 80px;
+  height: 120px;
+  transform: translateY(110px);
+  transition: transform 0.5s ease;
+}
+
+#mensaje:hover {
+  transform: translateY(12px) scale(1);
+}
+
 * {
   margin: 0;
   padding: 0;

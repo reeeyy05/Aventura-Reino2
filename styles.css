@@ -336,25 +336,21 @@ button:hover {
 
 @keyframes entrar-desde-izquierda {
   0% {
-    transform: translateX(-150px);
-    opacity: 0;
+    transform: translateX(-70vw);
   }
 
   100% {
     transform: translateX(0);
-    opacity: 1;
   }
 }
 
 @keyframes entrar-desde-derecha {
   0% {
-    transform: translateX(150px);
-    opacity: 0;
+    transform: translateX(70vw);
   }
 
   100% {
     transform: translateX(0);
-    opacity: 1;
   }
 }
 
@@ -368,6 +364,7 @@ button:hover {
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 #imagen-jugador-combate img,
@@ -378,11 +375,11 @@ button:hover {
 }
 
 .imagen-jugador-anim.anim-start {
-  animation: entrar-desde-izquierda 0.4s ease-out;
+  animation: entrar-desde-derecha 0.4s ease-out;
 }
 
 .imagen-enemigo-anim.anim-start {
-  animation: entrar-desde-derecha 0.4s ease-out;
+  animation: entrar-desde-izquierda 0.4s ease-out;
 }
 
 .form-jugador {
@@ -443,28 +440,18 @@ button:hover {
 #monedas img {
   width: 100px;
   height: 100px;
+  opacity: 1;  /* ← VISIBLE */
+}
+
+/* ← AÑADE ESTA CLASE */
+#monedas.animar-monedas {
+  animation: down 2s ease forwards;
 }
 
 #monedas.animar-monedas img {
-  animation: rotate 0.2s infinite ease, disappear 2s ease-out;
-  opacity: 0;
-}
-
-#monedas.animar-monedas {
-  animation: down 2s ease;
-}
-
-
-#monedas img:nth-child(1) {
-  left: 20vw;
-}
-
-#monedas img:nth-child(2) {
-  left: 45vw;
-}
-
-#monedas img:nth-child(3) {
-  left: 70vw;
+  animation:
+    rotate 0.2s infinite ease,
+    disappear 2s ease-out forwards;
 }
 
 @keyframes down {
@@ -673,6 +660,7 @@ table tr:nth-child(even) td {
   #imagen-enemigo-combate {
     width: 90px;
     height: 90px;
+    overflow: visible;
   }
 
   .enemigo-imagen img,
@@ -683,7 +671,6 @@ table tr:nth-child(even) td {
     height: 80px;
   }
 
-  /* Combate en columna */
   .fila-combate {
     flex-direction: vertical;
     flex-direction: column;
@@ -704,7 +691,6 @@ table tr:nth-child(even) td {
     padding: 7px 10px;
   }
 
-  /* Monedas animación algo más pequeña */
   #monedas {
     top: 45vh;
     height: 50px;
@@ -715,7 +701,6 @@ table tr:nth-child(even) td {
     height: 70px;
   }
 
-  /* Tabla ranking en móvil */
   .tabla-contenedor {
     max-height: 200px;
     overflow-y: auto;

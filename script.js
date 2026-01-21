@@ -285,6 +285,20 @@ function actualizarJugador() {
   document.getElementById('dinero-actualizado').textContent = jugador.dinero;
 }
 
+/**
+ * Calcula las estadísticas totales del jugador
+ */
+function statsJugador() {
+  let ataque = jugador.ataqueBase;
+  let defensa = jugador.defensaBase;
+
+  for (const item of jugador.inventario) {
+    if (item.ataque) ataque += item.ataque;
+    if (item.defensa) defensa += item.defensa;
+  }
+
+  return { ataque, defensa };
+}
 
 /**
  * Confirma la compra en el mercado y construye el inventario del jugador a partir de los productos seleccionados
@@ -404,9 +418,6 @@ function mostrarBatallaActual() {
   const imgJ = document.getElementById('imagen-jugador-combate');
   const imgE = document.getElementById('imagen-enemigo-combate');
 
-  imgJ.classList.add('imagen-jugador-anim');
-  imgE.classList.add('imagen-enemigo-anim');
-
   imgJ.innerHTML = `<img src="${jugador.imagen}" alt="${jugador.nombre}">`;
   imgE.innerHTML = `<img src="${enemigo.imagen}" alt="${enemigo.nombre}">`;
 
@@ -415,6 +426,9 @@ function mostrarBatallaActual() {
 
   document.getElementById('info-enemigo-combate').innerHTML =
     `👹 ${enemigo.nombre}<br>Vida: ${enemigo.vida} | Ataque: ${enemigo.ataque}`;
+
+  imgJ.classList.add('imagen-jugador-anim');
+  imgE.classList.add('imagen-enemigo-anim');
 
   imgJ.classList.remove('anim-start');
   imgE.classList.remove('anim-start');
@@ -451,6 +465,13 @@ function siguienteBatalla() {
     document.getElementById('siguiente-batalla').style.display = 'none';
     document.getElementById('finalizar').style.display = 'inline-block';
     return;
+  }
+
+  const contenedorMonedas = document.getElementById('monedas');
+  if (contenedorMonedas) {
+    contenedorMonedas.classList.remove('animar-monedas');
+    void contenedorMonedas.offsetWidth;
+    contenedorMonedas.classList.add('animar-monedas');
   }
 
   mostrarBatallaActual();
